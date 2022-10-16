@@ -120,6 +120,44 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               ],
             ),
+          ),
+          Container(
+            height: 400,
+            child: GridView(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              children: const [
+                Card(
+                  color: Colors.green,
+                  child: Text(
+                    "1",
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                ),
+                Card(
+                  color: Colors.green,
+                  child: Text(
+                    "2",
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                ),
+                Card(
+                  color: Colors.green,
+                  child: Text(
+                    "3",
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                ),
+                Card(
+                  color: Colors.green,
+                  child: Text(
+                    "4",
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       )),
