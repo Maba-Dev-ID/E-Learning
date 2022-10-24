@@ -14,10 +14,38 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context)?.settings.arguments;
     return Scaffold(
-        body: Center(
-      child: Text("${args}"),
+        body: SafeArea(
+      child: Container(
+          child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    CircleAvatar(),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nama Lengkap",
+                        ),
+                        Text("Semester N/A")
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+            ],
+          )
+        ],
+      )),
     ));
   }
 }
