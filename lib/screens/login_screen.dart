@@ -39,7 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Masuk", style: Theme.of(context).textTheme.headline2),
+                Text("Masuk",
+                    style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 32)),
                 const SizedBox(height: 50),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Form(
