@@ -70,8 +70,6 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Light.ttf
-    - family: Trajan Bold
-      fonts:
         - asset: assets/fonts/Poppins-Black.ttf
           weight: 700
   #
