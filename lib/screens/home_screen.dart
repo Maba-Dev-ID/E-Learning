@@ -32,7 +32,9 @@ Widget navbar() {
               Expanded(
                 child: Row(
                   children: [
-                    CircleAvatar(),
+                    CircleAvatar(
+                      backgroundImage: AssetImage("assets/images/profile.jpg"),
+                    ),
                     SizedBox(
                       width: 10,
                     ),
