@@ -31,7 +31,6 @@ class _LMSAppsState extends State<LMSApps> {
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
         },
-        theme: ThemeData(fontFamily: 'Poppins'),
       );
     });
   }
