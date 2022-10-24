@@ -17,35 +17,34 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: SafeArea(
       child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    CircleAvatar(),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Row(
                       children: [
-                        Text(
-                          "Nama Lengkap",
+                        CircleAvatar(),
+                        SizedBox(
+                          width: 10,
                         ),
-                        Text("Semester N/A")
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Nama Lengkap", style: TextStyle()),
+                            Text("Semester N/A")
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+                  ),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+                ],
+              )
             ],
-          )
-        ],
-      )),
+          )),
     ));
   }
 }
