@@ -16,35 +16,40 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        CircleAvatar(),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Nama Lengkap", style: TextStyle()),
-                            Text("Semester N/A")
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.menu))
-                ],
-              )
-            ],
-          )),
+      child: navbar(),
     ));
   }
+}
+
+Widget navbar() {
+  return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    CircleAvatar(),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Nama Lengkap",
+                            style: TextStyle(fontWeight: FontWeight.w700)),
+                        Text("Semester N/A")
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+            ],
+          )
+        ],
+      ));
 }

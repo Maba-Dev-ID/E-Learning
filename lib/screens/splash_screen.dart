@@ -11,14 +11,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // @override
-  
-  // void initState() {
-  //   Timer(Duration(seconds: 2), () {
-  //     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-  //   });
-  //   super.initState();
-  // }
+  @override
+
+  void initState() {
+    Timer(Duration(seconds: 2), () {
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,15 @@ class _SplashScreenState extends State<SplashScreen> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: [
-            Text("Elearning ITG", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700)),
-            Text("Layanan Digitalisasi Sekolah", style: TextStyle(fontSize: 12, color: Color(0xFF06283D)),),
+            Text(
+              "Elearning ITG",
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+            ),
+            Text(
+              "Layanan Digitalisasi Sekolah",
+              style: TextStyle(fontSize: 12, color: Color(0xFF06283D)),
+            ),
           ],
         ),
       ),
