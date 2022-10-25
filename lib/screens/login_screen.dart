@@ -34,9 +34,10 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Container(
             margin: EdgeInsets.symmetric(
-                horizontal: 50,
+                horizontal: 40,
                 vertical: MediaQuery.of(context).size.height / 4.5),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Elearning ITG",
@@ -50,37 +51,68 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children:  [
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
+                Container(
+                  margin: EdgeInsets.all(5),
+                  child: Text("Selamat Datang", style: TextStyle(fontFamily: "Poppins",fontSize: 25, color: Color(0xff256D85)),),
+                ),
                 Container(
                   margin: EdgeInsets.all(20),
                   child: Column(
                    crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    Text("Selamat Datang", style: TextStyle(fontSize: 15, color: Color(0xff256D85) ),),
                     Form(
                         key: _formKey,
                         child: Column(children: [
-                          TextFormField(
-                            controller: usernameCtrl,
-                            decoration:
-                                InputDecoration(hintText: 'masukkan username'),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            child: TextFormField(
+                              controller: usernameCtrl,
+                              decoration:
+                                  InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    fillColor: Color(0xffD9D9D9),
+                                    filled: true,
+                                    contentPadding:
+                                        EdgeInsets.all(15),
+                                    hintText: 'Username'),
+                            ),
                           ),
-                          TextFormField(
-                            controller: passCtrl,
-                            decoration:
-                                InputDecoration(hintText: 'masukkan pasword'),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            child: TextFormField(
+                              obscureText: true,
+                              controller: passCtrl,
+                              decoration:
+                                  InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    fillColor: Color(0xffD9D9D9),
+                                    filled: true,
+                                    contentPadding:
+                                        EdgeInsets.all(15),
+                                    hintText: 'Password'),
+                            ),
                           ),
                         ]))
                   ]),
                 ),
-                const SizedBox(height: 20),
-                SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          loginProvider.login(
-                              context, usernameCtrl.text, passCtrl.text);
-                        },
-                        child: Text("Masuk"))),
+                const SizedBox(height: 2),
+                Container(
+                  margin: EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment:MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                          width: 80,
+                          height: 30,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                loginProvider.login(
+                                    context, usernameCtrl.text, passCtrl.text);
+                              },
+                              child: Text("Masuk"))),
+                    ],
+                  ),
+                ),
               ],
                   )
                 )
