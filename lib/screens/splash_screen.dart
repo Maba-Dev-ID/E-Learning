@@ -11,14 +11,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // @override
+  @override
 
-  // void initState() {
-  //   Timer(Duration(seconds: 2), () {
-  //     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-  //   });
-  //   super.initState();
-  // }
+  void initState() {
+    Timer(Duration(seconds: 2), () {
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             Text(
               "Layanan Digitalisasi Sekolah",
-              style: TextStyle(fontSize: 10, color: Color(0xFF06283D)),
+              style: TextStyle(fontSize: 12, color: Color(0xFF06283D)),
             ),
           ],
         ),
