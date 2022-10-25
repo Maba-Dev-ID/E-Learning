@@ -34,29 +34,44 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Container(
             margin: EdgeInsets.symmetric(
-                horizontal: 70,
-                vertical: MediaQuery.of(context).size.height / 7),
+                horizontal: 50,
+                vertical: MediaQuery.of(context).size.height / 4.5),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Masuk", style: Theme.of(context).textTheme.headline2),
+                Text(
+                  "Elearning ITG",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700 ),),
+                Text(
+                  "Layanan Digitalisasi Sekolah",
+                  style: TextStyle(fontSize: 10, color: Color(0xFF06283D)),
+                ),
+                Card(                  
+                  elevation: 5,
+                  child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children:  [
                 const SizedBox(height: 50),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Form(
-                      key: _formKey,
-                      child: Column(children: [
-                        TextFormField(
-                          controller: usernameCtrl,
-                          decoration:
-                              InputDecoration(hintText: 'masukkan username'),
-                        ),
-                        TextFormField(
-                          controller: passCtrl,
-                          decoration:
-                              InputDecoration(hintText: 'masukkan pasword'),
-                        ),
-                      ]))
-                ]),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    Text("Selamat Datang", style: TextStyle(fontSize: 15, color: Color(0xff256D85) ),),
+                    Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          TextFormField(
+                            controller: usernameCtrl,
+                            decoration:
+                                InputDecoration(hintText: 'masukkan username'),
+                          ),
+                          TextFormField(
+                            controller: passCtrl,
+                            decoration:
+                                InputDecoration(hintText: 'masukkan pasword'),
+                          ),
+                        ]))
+                  ]),
+                ),
                 const SizedBox(height: 20),
                 SizedBox(
                     width: double.infinity,
@@ -66,6 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               context, usernameCtrl.text, passCtrl.text);
                         },
                         child: Text("Masuk"))),
+              ],
+                  )
+                )
               ],
             ),
           ),
