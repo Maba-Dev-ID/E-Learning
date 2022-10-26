@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/services/storaged.dart';
 
 import 'package:http/http.dart' as http;
 import '../configs/apiEndPoint.dart';
 
 class UserProvider extends ChangeNotifier {
+  var storage = SecureStorage();
   login(context, String username, String password) async {
     print('username : $username');
-    print('password : $password');
     Uri url = Uri.parse(apiEndPoint['LOGIN']);
 
     var response = await http.post(
@@ -18,17 +18,20 @@ class UserProvider extends ChangeNotifier {
     );
     var result = jsonDecode(response.body);
     print(response.statusCode);
+    print(result['token']);
     if (result['status'] == 1) {
       var token = result['token'];
-      // await storage.write('token', token);
+      await storage.write('token', token);
       // await getProfileUser();
 
       showDialog(context: context, builder: (context) => loading());
       Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false,
-            arguments: result['user']['detail']['nama']);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/home',
+          (route) => false,
+        );
       });
-      print(token);
     } else {
       showDialog(context: context, builder: (context) => loading());
       Future.delayed(const Duration(seconds: 2), () {
@@ -41,6 +44,32 @@ class UserProvider extends ChangeNotifier {
             )));
       });
     }
+  }
+
+  Future<Map<String, dynamic>> getProfileUser() async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['PROFILE']);
+
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body)['data'];
+    if (response.statusCode == 200) {
+      result as Map<String, dynamic>;
+      await storage.write('username', result['nama']);
+      await storage.write('semester', result['semester']);
+      return result;
+    } else {
+      throw 'error get profile user';
+    }
+  }
+
+  getAvatarUser() async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['AVATAR']);
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body)['data'];
+    print(result);
   }
 
   Container loading() {
