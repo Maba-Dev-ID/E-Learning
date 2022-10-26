@@ -27,7 +27,7 @@ class _LMSAppsState extends State<LMSApps> {
         title: 'LMS Mobile Apps',
         initialRoute: '/',
         routes: {
-          '/': (context) => const HomeScreen(),
+          '/': (context) => const LoginScreen(),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
         },
