@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -28,6 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    OutlineInputBorder myfocusborder(){
+      return OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),            
+        borderSide: BorderSide.none
+      );
+    }
     var loginProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       body: ListView(
@@ -69,12 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               controller: usernameCtrl,
                               decoration:
                                   InputDecoration(
-                                    border: OutlineInputBorder(),
+                                    border: myfocusborder(),
                                     fillColor: Color(0xffD9D9D9),
                                     filled: true,
                                     contentPadding:
                                         EdgeInsets.all(15),
-                                    hintText: 'Username'),
+                                    hintText: 'Masukan Username',
+                                    hintStyle: TextStyle(fontSize: 15.0, color: Colors.white)),
                             ),
                           ),
                           Container(
@@ -84,12 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               controller: passCtrl,
                               decoration:
                                   InputDecoration(
-                                    border: OutlineInputBorder(),
+                                    border: myfocusborder(),
                                     fillColor: Color(0xffD9D9D9),
                                     filled: true,
                                     contentPadding:
                                         EdgeInsets.all(15),
-                                    hintText: 'Password'),
+                                    hintText: 'Masukan Password',
+                                    hintStyle: TextStyle(fontSize: 15.0, color: Colors.white)),
                             ),
                           ),
                         ]))
@@ -102,9 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment:MainAxisAlignment.end,
                     children: [
                       SizedBox(
-                          width: 80,
-                          height: 30,
                           child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                            primary: Color(0xff256D85),
+                            padding: EdgeInsets.all(10)
+                            ),
                               onPressed: () {
                                 loginProvider.login(
                                     context, usernameCtrl.text, passCtrl.text);
