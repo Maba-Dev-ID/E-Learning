@@ -1,6 +1,8 @@
 import 'package:flutter_application_1/configs/config.dart';
 
 Map apiEndPoint = {
-  // https://elearning.itg.ac.id/api/auth/login
   "LOGIN": '$baseUrl/auth/login',
+  "PROFILE": '$baseUrl/student_area/profile',
+  "DASHBOARD": '$baseUrl/student_are/dashboard',
+  "AVATAR": '$baseUrl/upload/avatar/',
 };
