@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/user_provider.dart';
 import '../utils/theme.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,36 +13,50 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+
     return Scaffold(
         backgroundColor: kWhiteBg,
         body: SafeArea(
-            child: Container(
-          padding: const EdgeInsets.all(34),
-          child: Column(
-            children: [
-              navbar(),
-              hero(context),
-            ],
+          child: FutureBuilder(
+            future: userProvider.getProfileUser(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return Container();
+              }
+              return Container(
+                padding: const EdgeInsets.all(34),
+                child: Column(
+                  children: [
+                    navbar(snapshot.data['nama'], snapshot.data['semester'],
+                        snapshot.data['avatar']),
+                    hero(context),
+                  ],
+                ),
+              );
+            },
           ),
-        )));
+        ));
   }
 }
 
-Widget navbar() {
+Widget navbar(nama, semester, String? image) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("Nama Lengkap",
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
-          Text("Semester N/A")
+        children: [
+          Text("$nama",
+              style:
+                  const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+          Text("Semester $semester")
         ],
       ),
-      const CircleAvatar(
-        backgroundImage: AssetImage("assets/images/profile.jpg"),
-      ),
+      CircleAvatar(
+        backgroundImage:
+            NetworkImage("https://elearning.itg.ac.id/upload/avatar/${image}"),
+      )
     ],
   );
 }
