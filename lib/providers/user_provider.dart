@@ -9,16 +9,14 @@ import '../configs/apiEndPoint.dart';
 class UserProvider extends ChangeNotifier {
   var storage = SecureStorage();
   login(context, String username, String password) async {
-    print('username : $username');
     Uri url = Uri.parse(apiEndPoint['LOGIN']);
+    print(username);
 
     var response = await http.post(
       url,
       body: {"username": username, "password": password},
     );
     var result = jsonDecode(response.body);
-    print(response.statusCode);
-    print(result['token']);
     if (result['status'] == 1) {
       var token = result['token'];
       await storage.write('token', token);
@@ -63,13 +61,19 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  getAvatarUser() async {
+  getDashboard() async {
     var token = await storage.read('token');
-    Uri url = Uri.parse(apiEndPoint['AVATAR']);
+    Uri url = Uri.parse(apiEndPoint['DASHBOARD']);
+
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
     var result = jsonDecode(response.body)['data'];
-    print(result);
+    if (response.statusCode == 200) {
+      result as Map<String, dynamic>;
+      return result;
+    } else {
+      throw 'error get profile user';
+    }
   }
 
   Container loading() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widget/task.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 import '../utils/theme.dart';
@@ -31,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     navbar(snapshot.data['nama'], snapshot.data['semester'],
                         snapshot.data['avatar']),
                     hero(context),
+                    task(userProvider),
                   ],
                 ),
               );
@@ -121,5 +123,32 @@ Widget hero(BuildContext context) {
             )
           ]),
     ),
+  );
+}
+
+Widget task(UserProvider userProvider) {
+  return FutureBuilder(
+    future: userProvider.getDashboard(),
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      if (!snapshot.hasData) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Task(
+          taskName: "Materi",
+          total: "${snapshot.data['materi']['total']}",
+        ),
+        Task(
+          taskName: "Tugas",
+          total: "${snapshot.data['tugas']['not_finished']}",
+        ),
+        Task(
+          taskName: "Hadir",
+          total: "${snapshot.data['absensi']['report']['hadir']}",
+        )
+      ]);
+    },
   );
 }
