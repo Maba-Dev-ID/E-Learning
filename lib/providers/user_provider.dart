@@ -10,7 +10,7 @@ class UserProvider extends ChangeNotifier {
   var storage = SecureStorage();
   login(context, String username, String password) async {
     Uri url = Uri.parse(apiEndPoint['LOGIN']);
-    print(username);
+    print("$username Login");
 
     var response = await http.post(
       url,
@@ -20,7 +20,6 @@ class UserProvider extends ChangeNotifier {
     if (result['status'] == 1) {
       var token = result['token'];
       await storage.write('token', token);
-      // await getProfileUser();
 
       showDialog(context: context, builder: (context) => loading());
       Future.delayed(const Duration(seconds: 2), () {
@@ -89,7 +88,6 @@ class UserProvider extends ChangeNotifier {
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
     var result = jsonDecode(response.body)['data'];
-    // print(result['senin'][0]['kelas_mapel']['mapel']['nama']);
     if (response.statusCode == 200) {
       result as Map<String, dynamic>;
       List mapelsenin = result['senin'];
@@ -120,13 +118,6 @@ class UserProvider extends ChangeNotifier {
         ...jumat,
         ...sabtu,
       ];
-
-      // var hari = mapel[0]['hari'];
-      // var waktuMulai = mapel[0]['jam_mulai'];
-      // var waktuSelesai = mapel[0]['jam_selesai'];
-      // print(mapel[0]['kelas_mapel']['mapel']['nama']);
-      // print("$hari , $waktuMulai - $waktuSelesai");
-      print(mapel);
       return mapel;
     } else {
       throw 'error get profile user';

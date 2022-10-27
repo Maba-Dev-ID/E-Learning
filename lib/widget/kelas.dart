@@ -1,26 +1,39 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/utils/theme.dart';
 
 class KelasCard extends StatelessWidget {
-  final namaMatakul;
-  final jadwalMatkul;
-  final index;
+  final String? namaMatakul;
+  final String? hari;
+  final String? wMulai;
+  final String? wSelesai;
   const KelasCard({
     Key? key,
     this.namaMatakul,
-    this.jadwalMatkul,
-    this.index,
+    this.hari,
+    this.wMulai,
+    this.wSelesai,
   }) : super(key: key);
 
   int? random() {
-    var random = new Random();
+    var random = Random();
     return random.nextInt(11);
+  }
+
+  setJadwal(hari, wMulai, wSelesai) {
+    var waktuMulai = "";
+    var waktuSelesai = "";
+    for (var i = 0; i <= 4; i++) {
+      waktuMulai += wMulai[i];
+      waktuSelesai += wSelesai[i];
+    }
+    String? jadwal = "$hari , $waktuMulai- $waktuSelesai";
+    return jadwal;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(random());
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
@@ -40,7 +53,7 @@ class KelasCard extends StatelessWidget {
             ),
             SizedBox(
               child: Text(
-                namaMatakul,
+                "$namaMatakul",
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -48,12 +61,30 @@ class KelasCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.access_time_rounded),
-                Text('Selasa, 10:00-11:00', style: TextStyle(fontSize: 12))
+                const Icon(Icons.access_time_rounded),
+                Text(setJadwal(hari, wMulai, wSelesai),
+                    style: const TextStyle(fontSize: 12))
               ],
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SkeltonCard extends StatelessWidget {
+  const SkeltonCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: const Color(0xffEEEEEE),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Container(
+        width: 170,
+        height: 200,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       ),
     );
   }
