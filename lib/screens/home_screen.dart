@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(34),
                 child: Column(
                   children: [
-                    navbar(snapshot.data['nama'], snapshot.data['semester'],
+                    navbar(context,snapshot.data['nama'], snapshot.data['semester'],
                         snapshot.data['avatar']),
                     hero(context),
                   ],
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget navbar(nama, semester, String? image) {
+Widget navbar(BuildContext context, nama, semester, String? image) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -53,9 +53,12 @@ Widget navbar(nama, semester, String? image) {
           Text("Semester $semester")
         ],
       ),
-      CircleAvatar(
-        backgroundImage:
-            NetworkImage("https://elearning.itg.ac.id/upload/avatar/${image}"),
+      GestureDetector(
+        onTap: () => Navigator.pushNamed(context, '/profile'),
+        child: CircleAvatar(
+          backgroundImage:
+              NetworkImage("https://elearning.itg.ac.id/upload/avatar/${image}"),
+        ),
       )
     ],
   );

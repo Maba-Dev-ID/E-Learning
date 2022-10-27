@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/user_provider.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
+import 'package:flutter_application_1/screens/profile_screen.dart';
 import 'package:flutter_application_1/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class _LMSAppsState extends State<LMSApps> {
           '/': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
+          '/profile':(context) => const ProfileScreen(),
         },
         theme: ThemeData(fontFamily: "Poppins"),
       );
