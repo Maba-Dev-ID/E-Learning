@@ -26,6 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    OutlineInputBorder myfocusborder(){
+      return OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),            
+        borderSide: BorderSide.none
+      );
+    }
     var loginProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       body: ListView(
@@ -136,8 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: 80,
                                   height: 30,
                                   child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: kGreenPrimary),
                                       onPressed: () {
                                         loginProvider.login(context,
                                             usernameCtrl.text, passCtrl.text);
