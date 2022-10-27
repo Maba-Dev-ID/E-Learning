@@ -3,6 +3,7 @@ import 'package:flutter_application_1/widget/task.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 import '../utils/theme.dart';
+import '../widget/kelas.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,69 +20,57 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         backgroundColor: kWhiteBg,
         body: SafeArea(
-          child: FutureBuilder(
-            future: userProvider.getProfileUser(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) {
-                return Container();
-              }
-<<<<<<< HEAD
-              return Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 34),
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      children: [
-                        navbar(snapshot.data['nama'], snapshot.data['semester'],
-                            snapshot.data['avatar']),
-                        hero(context),
-                        task(userProvider),
-                      ],
-                    ),
-                  ),
-                  kelas(userProvider),
-                ],
-=======
-              return Container(
-                padding: const EdgeInsets.all(34),
+          child: ListView(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 34),
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   children: [
-                    navbar(context,snapshot.data['nama'], snapshot.data['semester'],
-                        snapshot.data['avatar']),
+                    navbar(context, userProvider),
                     hero(context),
                     task(userProvider),
                   ],
                 ),
->>>>>>> 3902a999b394961f84464c8c8028d39e3bab5cdb
-              );
-            },
+              ),
+              kelas(userProvider),
+            ],
           ),
         ));
   }
 }
 
-Widget navbar(BuildContext context, nama, semester, String? image) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+Widget navbar(BuildContext context, UserProvider userProvider) {
+  return FutureBuilder(
+    future: userProvider.getProfileUser(),
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      if (!snapshot.hasData) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("$nama",
-              style:
-                  const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
-          Text("Semester $semester")
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${snapshot.data['nama']}",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w700, fontSize: 16)),
+              Text("Semester ${snapshot.data['semester']}")
+            ],
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/profile'),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+            ),
+          )
         ],
-      ),
-      GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/profile'),
-        child: CircleAvatar(
-          backgroundImage:
-              NetworkImage("https://elearning.itg.ac.id/upload/avatar/${image}"),
-        ),
-      )
-    ],
+      );
+    },
   );
 }
 
@@ -190,7 +179,9 @@ Widget kelas(UserProvider userProvider) {
                     fontWeight: FontWeight.w700,
                   )),
               GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    userProvider.getMataKuliah();
+                  },
                   child: Text('Lihat semua', style: TextStyle(fontSize: 12))),
             ],
           ),
@@ -201,6 +192,7 @@ Widget kelas(UserProvider userProvider) {
           child: FutureBuilder(
             future: userProvider.getMataKuliah(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
+              print(snapshot.data);
               if (!snapshot.hasData) {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -208,11 +200,11 @@ Widget kelas(UserProvider userProvider) {
               }
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 2,
+                itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return KelasCard(
-                    namaMatakul: snapshot.data['senin'][index]['kelas_mapel']
-                        ['mapel']['nama'],
+                    namaMatakul: snapshot.data[index]['kelas_mapel']['mapel']
+                        ['nama'],
                   );
                 },
               );
@@ -222,50 +214,4 @@ Widget kelas(UserProvider userProvider) {
       ],
     ),
   );
-}
-
-class KelasCard extends StatelessWidget {
-  final namaMatakul;
-  final jadwalMatkul;
-  const KelasCard({
-    Key? key,
-    this.namaMatakul,
-    this.jadwalMatkul,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Container(
-        width: 170,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                'assets/images/materi.png',
-                height: 100,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Text(
-              namaMatakul,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Icon(Icons.access_time_rounded),
-                Text('Selasa, 10:00-11:00', style: TextStyle(fontSize: 12))
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }

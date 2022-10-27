@@ -26,6 +26,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/kelas/
 
   fonts:
     - family: Poppins
@@ -35,4 +36,3 @@ flutter:
           weight: 700
         - asset: assets/fonts/Poppins-Black.ttf
           weight: 500
-

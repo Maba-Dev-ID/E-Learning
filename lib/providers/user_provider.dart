@@ -76,6 +76,12 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  addMapel(elements, list) {
+    for (var element in elements) {
+      list.add(element);
+    }
+  }
+
   getMataKuliah() async {
     var token = await storage.read('token');
     Uri url = Uri.parse(apiEndPoint['MATAKULIAH']);
@@ -83,10 +89,45 @@ class UserProvider extends ChangeNotifier {
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
     var result = jsonDecode(response.body)['data'];
-    print(result['senin'][0]['kelas_mapel']['mapel']['nama']);
+    // print(result['senin'][0]['kelas_mapel']['mapel']['nama']);
     if (response.statusCode == 200) {
       result as Map<String, dynamic>;
-      return result;
+      List mapelsenin = result['senin'];
+      List mapelselasa = result['selasa'];
+      List mapelrabu = result['rabu'];
+      List mapelkamis = result['kamis'];
+      List mapeljumat = result['jumat'];
+      List mapelsabtu = result['sabtu'];
+      List senin = [];
+      List selasa = [];
+      List rabu = [];
+      List kamis = [];
+      List jumat = [];
+      List sabtu = [];
+
+      addMapel(mapelsenin, senin);
+      addMapel(mapelselasa, selasa);
+      addMapel(mapelrabu, rabu);
+      addMapel(mapelkamis, kamis);
+      addMapel(mapeljumat, jumat);
+      addMapel(mapelsabtu, sabtu);
+
+      List mapel = [
+        ...senin,
+        ...selasa,
+        ...rabu,
+        ...kamis,
+        ...jumat,
+        ...sabtu,
+      ];
+
+      // var hari = mapel[0]['hari'];
+      // var waktuMulai = mapel[0]['jam_mulai'];
+      // var waktuSelesai = mapel[0]['jam_selesai'];
+      // print(mapel[0]['kelas_mapel']['mapel']['nama']);
+      // print("$hari , $waktuMulai - $waktuSelesai");
+      print(mapel);
+      return mapel;
     } else {
       throw 'error get profile user';
     }
