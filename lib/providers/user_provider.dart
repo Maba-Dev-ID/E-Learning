@@ -76,6 +76,22 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  getMataKuliah() async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['MATAKULIAH']);
+
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body)['data'];
+    print(result['senin'][0]['kelas_mapel']['mapel']['nama']);
+    if (response.statusCode == 200) {
+      result as Map<String, dynamic>;
+      return result;
+    } else {
+      throw 'error get profile user';
+    }
+  }
+
   Container loading() {
     return Container(
       margin: const EdgeInsets.symmetric(

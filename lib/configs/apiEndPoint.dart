@@ -5,4 +5,5 @@ Map apiEndPoint = {
   "PROFILE": '$baseUrl/student_area/profile',
   "DASHBOARD": '$baseUrl/student_area/dashboard',
   "AVATAR": '$baseUrl/upload/avatar/',
+  "MATAKULIAH": '$baseUrl/student_area/jadwal',
 };

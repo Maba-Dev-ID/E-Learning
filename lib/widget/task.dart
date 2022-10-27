@@ -11,9 +11,11 @@ class Task extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 10),
+      child: SizedBox(
+        width: 100,
+        height: 90,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(total,
                 style:
