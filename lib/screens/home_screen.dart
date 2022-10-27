@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (!snapshot.hasData) {
                 return Container();
               }
+<<<<<<< HEAD
               return Column(
                 children: [
                   Container(
@@ -41,6 +42,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   kelas(userProvider),
                 ],
+=======
+              return Container(
+                padding: const EdgeInsets.all(34),
+                child: Column(
+                  children: [
+                    navbar(context,snapshot.data['nama'], snapshot.data['semester'],
+                        snapshot.data['avatar']),
+                    hero(context),
+                    task(userProvider),
+                  ],
+                ),
+>>>>>>> 3902a999b394961f84464c8c8028d39e3bab5cdb
               );
             },
           ),
@@ -48,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget navbar(nama, semester, String? image) {
+Widget navbar(BuildContext context, nama, semester, String? image) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -61,9 +74,12 @@ Widget navbar(nama, semester, String? image) {
           Text("Semester $semester")
         ],
       ),
-      CircleAvatar(
-        backgroundImage:
-            NetworkImage("https://elearning.itg.ac.id/upload/avatar/${image}"),
+      GestureDetector(
+        onTap: () => Navigator.pushNamed(context, '/profile'),
+        child: CircleAvatar(
+          backgroundImage:
+              NetworkImage("https://elearning.itg.ac.id/upload/avatar/${image}"),
+        ),
       )
     ],
   );
