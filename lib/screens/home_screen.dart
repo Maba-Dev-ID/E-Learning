@@ -3,6 +3,7 @@ import 'package:flutter_application_1/widget/task.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 import '../utils/theme.dart';
+import '../widget/kelas.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,56 +20,83 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         backgroundColor: kWhiteBg,
         body: SafeArea(
-          child: FutureBuilder(
-            future: userProvider.getProfileUser(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) {
-                return Container();
-              }
-              return Container(
-                padding: const EdgeInsets.all(34),
+          child: ListView(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 34),
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   children: [
-                    navbar(context,snapshot.data['nama'], snapshot.data['semester'],
-                        snapshot.data['avatar']),
+                    navbar(context, userProvider),
                     hero(context),
                     task(userProvider),
                   ],
                 ),
-              );
-            },
+              ),
+              kelas(userProvider),
+            ],
           ),
         ));
   }
 }
 
-Widget navbar(BuildContext context, nama, semester, String? image) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+Widget navbar(BuildContext context, UserProvider userProvider) {
+  return FutureBuilder(
+    future: userProvider.getProfileUser(),
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      if (!snapshot.hasData) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 10,
+                  width: 100,
+                  color: const Color(0xffEEEEEE),
+                ),
+                Container(
+                  height: 10,
+                  width: 50,
+                  color: const Color(0xffEEEEEE),
+                ),
+              ],
+            ),
+            const CircleAvatar(
+              backgroundColor: Color(0xffEEEEEE),
+            )
+          ],
+        );
+      }
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("$nama",
-              style:
-                  const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
-          Text("Semester $semester")
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${snapshot.data['nama']}",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w700, fontSize: 16)),
+              Text("Semester ${snapshot.data['semester']}")
+            ],
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/profile'),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+            ),
+          )
         ],
-      ),
-      GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/profile'),
-        child: CircleAvatar(
-          backgroundImage:
-              NetworkImage("https://elearning.itg.ac.id/upload/avatar/${image}"),
-        ),
-      )
-    ],
+      );
+    },
   );
 }
 
 Widget hero(BuildContext context) {
   return Container(
-    margin: const EdgeInsets.symmetric(vertical: 30),
+    margin: const EdgeInsets.only(top: 30, bottom: 20),
     height: 166,
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
@@ -76,7 +104,7 @@ Widget hero(BuildContext context) {
       borderRadius: BorderRadius.circular(20),
     ),
     child: Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,8 +162,17 @@ Widget task(UserProvider userProvider) {
     future: userProvider.getDashboard(),
     builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (!snapshot.hasData) {
-        return Center(
-          child: CircularProgressIndicator(),
+        var size = MediaQuery.of(context).size;
+        return SizedBox(
+          height: 90,
+          child: ListView.builder(
+            itemCount: 3,
+            itemBuilder: (BuildContext context, int index) {
+              return const Task(
+                color: Color(0xffEEEEEE),
+              );
+            },
+          ),
         );
       }
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -148,10 +185,69 @@ Widget task(UserProvider userProvider) {
           total: "${snapshot.data['tugas']['not_finished']}",
         ),
         Task(
-          taskName: "Hadir",
-          total: "${snapshot.data['absensi']['report']['hadir']}",
+          taskName: "Evaluasi",
+          total: "${snapshot.data['evaluasi']['not_finished']}",
         )
       ]);
     },
+  );
+}
+
+Widget kelas(UserProvider userProvider) {
+  return Container(
+    margin: const EdgeInsets.only(top: 30),
+    child: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Daftar Kelas",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                  )),
+              GestureDetector(
+                  onTap: () {},
+                  child: const Text('Lihat semua',
+                      style: TextStyle(fontSize: 12))),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(left: 20),
+          height: 200,
+          child: FutureBuilder(
+            future: userProvider.getMataKuliah(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 7,
+                  itemBuilder: (BuildContext context, int index) {
+                    return const SkeltonCard();
+                  },
+                );
+              }
+              var data = snapshot.data;
+              return ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return KelasCard(
+                    namaMatakul: data[index]['kelas_mapel']['mapel']['nama'],
+                    hari: data[index]['hari'],
+                    wMulai: data[index]['jam_mulai'],
+                    wSelesai: data[index]['jam_selesai'],
+                  );
+                },
+              );
+            },
+          ),
+        )
+      ],
+    ),
   );
 }

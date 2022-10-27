@@ -10,7 +10,7 @@ class UserProvider extends ChangeNotifier {
   var storage = SecureStorage();
   login(context, String username, String password) async {
     Uri url = Uri.parse(apiEndPoint['LOGIN']);
-    print(username);
+    print("$username Login");
 
     var response = await http.post(
       url,
@@ -20,7 +20,6 @@ class UserProvider extends ChangeNotifier {
     if (result['status'] == 1) {
       var token = result['token'];
       await storage.write('token', token);
-      // await getProfileUser();
 
       showDialog(context: context, builder: (context) => loading());
       Future.delayed(const Duration(seconds: 2), () {
@@ -71,6 +70,55 @@ class UserProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       result as Map<String, dynamic>;
       return result;
+    } else {
+      throw 'error get profile user';
+    }
+  }
+
+  addMapel(elements, list) {
+    for (var element in elements) {
+      list.add(element);
+    }
+  }
+
+  getMataKuliah() async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['MATAKULIAH']);
+
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body)['data'];
+    if (response.statusCode == 200) {
+      result as Map<String, dynamic>;
+      List mapelsenin = result['senin'];
+      List mapelselasa = result['selasa'];
+      List mapelrabu = result['rabu'];
+      List mapelkamis = result['kamis'];
+      List mapeljumat = result['jumat'];
+      List mapelsabtu = result['sabtu'];
+      List senin = [];
+      List selasa = [];
+      List rabu = [];
+      List kamis = [];
+      List jumat = [];
+      List sabtu = [];
+
+      addMapel(mapelsenin, senin);
+      addMapel(mapelselasa, selasa);
+      addMapel(mapelrabu, rabu);
+      addMapel(mapelkamis, kamis);
+      addMapel(mapeljumat, jumat);
+      addMapel(mapelsabtu, sabtu);
+
+      List mapel = [
+        ...senin,
+        ...selasa,
+        ...rabu,
+        ...kamis,
+        ...jumat,
+        ...sabtu,
+      ];
+      return mapel;
     } else {
       throw 'error get profile user';
     }
