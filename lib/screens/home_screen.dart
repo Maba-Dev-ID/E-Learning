@@ -163,17 +163,12 @@ Widget task(UserProvider userProvider) {
     builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (!snapshot.hasData) {
         var size = MediaQuery.of(context).size;
-        return SizedBox(
-          height: 90,
-          child: ListView.builder(
-            itemCount: 3,
-            itemBuilder: (BuildContext context, int index) {
-              return const Task(
-                color: Color(0xffEEEEEE),
-              );
-            },
-          ),
-        );
+        return Row(
+            children: List.generate(
+                3,
+                (index) => const Task(
+                      color: Color(0xffeeeeee),
+                    )));
       }
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Task(
@@ -221,28 +216,27 @@ Widget kelas(UserProvider userProvider) {
             future: userProvider.getMataKuliah(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) {
-                return ListView.builder(
-                  shrinkWrap: true,
+                return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 7,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const SkeltonCard();
-                  },
+                  child: Row(
+                    children: List.generate(5, (index) => const SkeltonCard()),
+                  ),
                 );
               }
               var data = snapshot.data;
-              return ListView.builder(
-                shrinkWrap: true,
+              return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return KelasCard(
-                    namaMatakul: data[index]['kelas_mapel']['mapel']['nama'],
-                    hari: data[index]['hari'],
-                    wMulai: data[index]['jam_mulai'],
-                    wSelesai: data[index]['jam_selesai'],
-                  );
-                },
+                child: Row(
+                  children: List.generate(
+                      snapshot.data.length,
+                      (index) => KelasCard(
+                            namaMatakul: data[index]['kelas_mapel']['mapel']
+                                ['nama'],
+                            hari: data[index]['hari'],
+                            wMulai: data[index]['jam_mulai'],
+                            wSelesai: data[index]['jam_selesai'],
+                          )),
+                ),
               );
             },
           ),
