@@ -72,4 +72,18 @@ class MapelProvider extends ChangeNotifier {
       throw 'error get profile user';
     }
   }
+
+  getTugas() async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['TUGASALL']);
+
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body)['data'];
+    if (response.statusCode == 200) {
+      return result;
+    } else {
+      throw 'error get profile user';
+    }
+  }
 }
