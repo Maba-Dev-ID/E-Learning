@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/mapel_provider.dart';
 import 'package:flutter_application_1/providers/user_provider.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/profile_screen.dart';
 import 'package:flutter_application_1/screens/splash_screen.dart';
+import 'package:flutter_application_1/screens/tugas_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => UserProvider()),
+    ChangeNotifierProvider(create: (_) => MapelProvider()),
   ], child: const LMSApps()));
 }
 
@@ -31,7 +34,8 @@ class _LMSAppsState extends State<LMSApps> {
           '/': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
-          '/profile':(context) => const ProfileScreen(),
+          '/profile': (context) => const ProfileScreen(),
+          '/tugas': (context) => const TugasScreen(),
         },
         theme: ThemeData(fontFamily: "Poppins"),
       );
