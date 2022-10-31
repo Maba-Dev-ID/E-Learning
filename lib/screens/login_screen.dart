@@ -26,6 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    OutlineInputBorder myfocusborder() {
+      return OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide.none);
+    }
+
     var loginProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       body: ListView(
@@ -56,6 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
                     elevation: 5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   const EdgeInsets.all(15),
                                               hintText: 'Username',
                                               hintStyle: const TextStyle(
-                                                  color: Colors.grey)),
+                                                  color: Colors.white)),
                                         ),
                                       ),
                                       Container(
@@ -119,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   const EdgeInsets.all(15),
                                               hintText: 'Password',
                                               hintStyle: const TextStyle(
-                                                color: Colors.grey,
+                                                color: Colors.white,
                                               )),
                                         ),
                                       ),
