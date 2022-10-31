@@ -87,10 +87,13 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
           ),
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/profile'),
-            child: CircleAvatar(
-              backgroundColor: const Color(0xffeeeeee),
-              backgroundImage: NetworkImage(
-                  "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+            child: Hero(
+              tag: 'avatar',
+              child: CircleAvatar(
+                backgroundColor: const Color(0xffeeeeee),
+                backgroundImage: NetworkImage(
+                    "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+              ),
             ),
           )
         ],
