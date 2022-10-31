@@ -38,12 +38,18 @@ class _TugasScreenState extends State<TugasScreen> {
   Widget build(BuildContext context) {
     var tugasAll = Provider.of<MapelProvider>(context, listen: false);
     return Scaffold(
+        backgroundColor: kWhiteBg,
         appBar: AppBar(
-          title: const Text("Tugas"),
-          centerTitle: true,
+          title: const Text("Tugas",
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xff06283D))),
           backgroundColor: kWhiteBg,
-          foregroundColor: kGreenPrimary,
+          foregroundColor: Colors.black,
+          toolbarHeight: 110,
           elevation: 0,
+          centerTitle: true,
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
         ),
         body: SafeArea(
