@@ -30,9 +30,12 @@ class SkeltonProfile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const CircleAvatar(
-          radius: 80,
-          backgroundColor: Color(0xffeeeeee),
+        Hero(
+          tag: 'profile',
+          child: const CircleAvatar(
+            radius: 80,
+            backgroundColor: Color(0xffeeeeee),
+          ),
         ),
         SizedBox(
           height: 5,

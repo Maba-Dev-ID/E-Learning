@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -18,12 +19,12 @@ class UserProvider extends ChangeNotifier {
       body: {"username": username, "password": password},
     );
     var result = jsonDecode(response.body);
+    showDialog(context: context, builder: (context) => loading());
     if (result['status'] == 1) {
       var token = result['token'];
       await storage.write('token', token);
 
-      showDialog(context: context, builder: (context) => loading());
-      Future.delayed(const Duration(seconds: 2), () {
+      Timer(const Duration(seconds: 2), () {
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/home',
@@ -31,13 +32,12 @@ class UserProvider extends ChangeNotifier {
         );
       });
     } else {
-      showDialog(context: context, builder: (context) => loading());
-      Future.delayed(const Duration(seconds: 2), () {
+      Timer(const Duration(seconds: 2), () {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             duration: Duration(seconds: 2),
             content: Text(
-              'Email dan Password salah',
+              result['message'],
               textAlign: TextAlign.center,
             )));
       });
