@@ -4,6 +4,7 @@ import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/profile_screen.dart';
 import 'package:flutter_application_1/screens/splash_screen.dart';
+import 'package:flutter_application_1/screens/tugas_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -28,7 +29,7 @@ class _LMSAppsState extends State<LMSApps> {
         title: 'LMS Mobile Apps',
         initialRoute: '/',
         routes: {
-          '/': (context) => const SplashScreen(),
+          '/': (context) => const TugasScreen(),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
           '/profile':(context) => const ProfileScreen(),

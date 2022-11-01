@@ -171,7 +171,7 @@ Widget task(UserProvider userProvider) {
                     )));
       }
       return Container(
-        child: Row(children: [
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Task(
             taskName: "Materi",
             total: "${snapshot.data['materi']['total']}",
