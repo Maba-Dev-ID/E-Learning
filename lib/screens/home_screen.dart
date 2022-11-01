@@ -177,24 +177,6 @@ Widget task(MapelProvider mapelProvider) {
                       color: Color(0xffeeeeee),
                     )));
       }
-<<<<<<< HEAD
-      return Container(
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Task(
-            taskName: "Materi",
-            total: "${snapshot.data['materi']['total']}",
-          ),
-          Task(
-            taskName: "Tugas",
-            total: "${snapshot.data['tugas']['not_finished']}",
-          ),
-          Task(
-            taskName: "Evaluasi",
-            total: "${snapshot.data['evaluasi']['not_finished']}",
-          )
-        ]),
-      );
-=======
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Task(
           taskName: "Materi",
@@ -214,7 +196,6 @@ Widget task(MapelProvider mapelProvider) {
           total: "${snapshot.data['evaluasi']['not_finished']}",
         )
       ]);
->>>>>>> fa61d08e03a741aa3968ac6c670c16e2c3143052
     },
   );
 }
