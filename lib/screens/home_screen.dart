@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/mapel_provider.dart';
 import 'package:flutter_application_1/widget/task.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
@@ -16,8 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context, listen: false);
+    var mapelProvider = Provider.of<MapelProvider>(context, listen: false);
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: kWhiteBg,
         body: SafeArea(
           child: ListView(
@@ -29,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     navbar(context, userProvider),
                     hero(context),
-                    task(userProvider),
+                    task(mapelProvider),
                   ],
                 ),
               ),
-              kelas(userProvider),
+              kelas(mapelProvider),
             ],
           ),
         ));
@@ -78,14 +81,19 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
               Text("${snapshot.data['nama']}",
                   style: const TextStyle(
                       fontWeight: FontWeight.w700, fontSize: 16)),
-              Text("Semester ${snapshot.data['semester']}")
+              Text(
+                  "${snapshot.data['user']['user_type'] == 'siswa' ? 'Mahasiswa' : snapshot.data['user']['user_type']}")
             ],
           ),
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/profile'),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+            child: Hero(
+              tag: 'avatar',
+              child: CircleAvatar(
+                backgroundColor: const Color(0xffeeeeee),
+                backgroundImage: NetworkImage(
+                    "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+              ),
             ),
           )
         ],
@@ -157,12 +165,11 @@ Widget hero(BuildContext context) {
   );
 }
 
-Widget task(UserProvider userProvider) {
+Widget task(MapelProvider mapelProvider) {
   return FutureBuilder(
-    future: userProvider.getDashboard(),
+    future: mapelProvider.getDashboard(),
     builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (!snapshot.hasData) {
-        var size = MediaQuery.of(context).size;
         return Row(
             children: List.generate(
                 3,
@@ -170,6 +177,7 @@ Widget task(UserProvider userProvider) {
                       color: Color(0xffeeeeee),
                     )));
       }
+<<<<<<< HEAD
       return Container(
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Task(
@@ -186,11 +194,32 @@ Widget task(UserProvider userProvider) {
           )
         ]),
       );
+=======
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Task(
+          taskName: "Materi",
+          total: "${snapshot.data['materi']['total']}",
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, "/tugas");
+          },
+          child: Task(
+            taskName: "Tugas",
+            total: "${snapshot.data['tugas']['not_finished']}",
+          ),
+        ),
+        Task(
+          taskName: "Evaluasi",
+          total: "${snapshot.data['evaluasi']['not_finished']}",
+        )
+      ]);
+>>>>>>> fa61d08e03a741aa3968ac6c670c16e2c3143052
     },
   );
 }
 
-Widget kelas(UserProvider userProvider) {
+Widget kelas(MapelProvider mapelProvider) {
   return Container(
     margin: const EdgeInsets.only(top: 30),
     child: Column(
@@ -215,7 +244,7 @@ Widget kelas(UserProvider userProvider) {
           padding: const EdgeInsets.only(left: 20),
           height: 200,
           child: FutureBuilder(
-            future: userProvider.getMataKuliah(),
+            future: mapelProvider.getMataKuliah(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) {
                 return SingleChildScrollView(

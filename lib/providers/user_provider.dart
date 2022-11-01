@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import '../configs/apiEndPoint.dart';
 
 class UserProvider extends ChangeNotifier {
   var storage = SecureStorage();
+
   login(context, String username, String password) async {
     Uri url = Uri.parse(apiEndPoint['LOGIN']);
     print("$username Login");
@@ -17,12 +19,12 @@ class UserProvider extends ChangeNotifier {
       body: {"username": username, "password": password},
     );
     var result = jsonDecode(response.body);
+    showDialog(context: context, builder: (context) => loading());
     if (result['status'] == 1) {
       var token = result['token'];
       await storage.write('token', token);
 
-      showDialog(context: context, builder: (context) => loading());
-      Future.delayed(const Duration(seconds: 2), () {
+      Timer(const Duration(seconds: 2), () {
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/home',
@@ -30,13 +32,12 @@ class UserProvider extends ChangeNotifier {
         );
       });
     } else {
-      showDialog(context: context, builder: (context) => loading());
-      Future.delayed(const Duration(seconds: 2), () {
+      Timer(const Duration(seconds: 2), () {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             duration: Duration(seconds: 2),
             content: Text(
-              'Email dan Password salah',
+              result['message'],
               textAlign: TextAlign.center,
             )));
       });
@@ -55,70 +56,6 @@ class UserProvider extends ChangeNotifier {
       await storage.write('username', result['nama']);
       await storage.write('semester', result['semester']);
       return result;
-    } else {
-      throw 'error get profile user';
-    }
-  }
-
-  getDashboard() async {
-    var token = await storage.read('token');
-    Uri url = Uri.parse(apiEndPoint['DASHBOARD']);
-
-    var response =
-        await http.get(url, headers: {"Authorization": "Bearer $token"});
-    var result = jsonDecode(response.body)['data'];
-    if (response.statusCode == 200) {
-      result as Map<String, dynamic>;
-      return result;
-    } else {
-      throw 'error get profile user';
-    }
-  }
-
-  addMapel(elements, list) {
-    for (var element in elements) {
-      list.add(element);
-    }
-  }
-
-  getMataKuliah() async {
-    var token = await storage.read('token');
-    Uri url = Uri.parse(apiEndPoint['MATAKULIAH']);
-
-    var response =
-        await http.get(url, headers: {"Authorization": "Bearer $token"});
-    var result = jsonDecode(response.body)['data'];
-    if (response.statusCode == 200) {
-      result as Map<String, dynamic>;
-      List mapelsenin = result['senin'];
-      List mapelselasa = result['selasa'];
-      List mapelrabu = result['rabu'];
-      List mapelkamis = result['kamis'];
-      List mapeljumat = result['jumat'];
-      List mapelsabtu = result['sabtu'];
-      List senin = [];
-      List selasa = [];
-      List rabu = [];
-      List kamis = [];
-      List jumat = [];
-      List sabtu = [];
-
-      addMapel(mapelsenin, senin);
-      addMapel(mapelselasa, selasa);
-      addMapel(mapelrabu, rabu);
-      addMapel(mapelkamis, kamis);
-      addMapel(mapeljumat, jumat);
-      addMapel(mapelsabtu, sabtu);
-
-      List mapel = [
-        ...senin,
-        ...selasa,
-        ...rabu,
-        ...kamis,
-        ...jumat,
-        ...sabtu,
-      ];
-      return mapel;
     } else {
       throw 'error get profile user';
     }

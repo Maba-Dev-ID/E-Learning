@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/services/storaged.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,10 +12,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  var storage = SecureStorage();
+  var isLogin = false;
+
+  token() async {
+    String? token = await storage.read('token');
+    print(token);
+    if (token != null) {
+      isLogin = true;
+    }
+  }
+
   @override
   void initState() {
+    token();
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      !isLogin
+          ? Navigator.pushNamedAndRemoveUntil(
+              context, '/login', (route) => false)
+          : Navigator.pushNamedAndRemoveUntil(
+              context, '/home', (route) => false);
     });
     super.initState();
   }
@@ -22,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
