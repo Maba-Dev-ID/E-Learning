@@ -178,9 +178,14 @@ Widget task(MapelProvider mapelProvider) {
                     )));
       }
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Task(
-          taskName: "Materi",
-          total: "${snapshot.data['materi']['total']}",
+        GestureDetector(
+          onTap: (){
+            Navigator.pushNamed(context, "/materi");
+          },
+          child: Task(
+            taskName: "Materi",
+            total: "${snapshot.data['materi']['total']}",
+          ),
         ),
         GestureDetector(
           onTap: () {

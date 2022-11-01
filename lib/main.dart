@@ -3,6 +3,7 @@ import 'package:flutter_application_1/providers/mapel_provider.dart';
 import 'package:flutter_application_1/providers/user_provider.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
+import 'package:flutter_application_1/screens/materi_screen.dart';
 import 'package:flutter_application_1/screens/profile_screen.dart';
 import 'package:flutter_application_1/screens/splash_screen.dart';
 import 'package:flutter_application_1/screens/tugas_screen.dart';
@@ -31,11 +32,12 @@ class _LMSAppsState extends State<LMSApps> {
         title: 'LMS Mobile Apps',
         initialRoute: '/',
         routes: {
-          '/': (context) => const TugasScreen(),
+          '/': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
           '/profile': (context) => const ProfileScreen(),
           '/tugas': (context) => const TugasScreen(),
+          '/materi': (context) => const MateriScreen(),
         },
         theme: ThemeData(fontFamily: "Poppins"),
       );
