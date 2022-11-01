@@ -170,20 +170,22 @@ Widget task(UserProvider userProvider) {
                       color: Color(0xffeeeeee),
                     )));
       }
-      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Task(
-          taskName: "Materi",
-          total: "${snapshot.data['materi']['total']}",
-        ),
-        Task(
-          taskName: "Tugas",
-          total: "${snapshot.data['tugas']['not_finished']}",
-        ),
-        Task(
-          taskName: "Evaluasi",
-          total: "${snapshot.data['evaluasi']['not_finished']}",
-        )
-      ]);
+      return Container(
+        child: Row(children: [
+          Task(
+            taskName: "Materi",
+            total: "${snapshot.data['materi']['total']}",
+          ),
+          Task(
+            taskName: "Tugas",
+            total: "${snapshot.data['tugas']['not_finished']}",
+          ),
+          Task(
+            taskName: "Evaluasi",
+            total: "${snapshot.data['evaluasi']['not_finished']}",
+          )
+        ]),
+      );
     },
   );
 }
