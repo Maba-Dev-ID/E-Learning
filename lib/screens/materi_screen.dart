@@ -75,22 +75,27 @@ class _MateriScreenState extends State<MateriScreen> {
                       trailing: Column(
                         children: [
                           SizedBox(
-                            width: 68,
+                            width: 60,
                             height: 20,
                             child: Text(d[index]['created_at'],
-                            overflow: TextOverflow.ellipsis,
+                            overflow: TextOverflow.fade,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 10
                                 )),
                           ),
-                          Text(
-                            namaDosen(
-                                d[index]['kelas_mapel']['guru']['nama'],
-                                d[index]['kelas_mapel']['guru']
-                                    ['gelar_belakang']),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
+                          Container(
+                            width: 150,
+                            height: 20,
+                            alignment: Alignment.center,
+                            child: Text(
+                              namaDosen(
+                                  d[index]['kelas_mapel']['guru']['nama'],
+                                  d[index]['kelas_mapel']['guru']
+                                      ['gelar_belakang']),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 10),
+                            ),
                           ),
                         ],
                       ),
