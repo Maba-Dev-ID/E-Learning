@@ -1,12 +1,20 @@
+import 'dart:async';
+
+import 'package:flutter/src/material/expansion_panel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/providers/mapel_provider.dart';
-import 'package:flutter_application_1/utils/theme.dart';
+import 'package:flutter_application_1/widget/loading.dart';
 import 'package:provider/provider.dart';
+import '../providers/mapel_provider.dart';
+import '../providers/user_provider.dart';
+import '../utils/theme.dart';
+import '../widget/profile.dart';
 
 class TugasScreen extends StatefulWidget {
-  const TugasScreen({super.key});
+  const TugasScreen({Key? key}) : super(key: key);
 
   @override
+
+
   State<TugasScreen> createState() => _TugasScreenState();
 }
 
