@@ -66,8 +66,11 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
                 ),
               ],
             ),
-            const CircleAvatar(
-              backgroundColor: Color(0xffEEEEEE),
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, "/profile"),
+              child: const CircleAvatar(
+                backgroundColor: Color(0xffEEEEEE),
+              ),
             )
           ],
         );
