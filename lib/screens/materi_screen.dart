@@ -60,7 +60,7 @@ class _MateriScreenState extends State<MateriScreen> {
                   (index) => Card(
                     color: kGreenPrimary,
                     margin: const EdgeInsets.only(
-                        bottom: 6, right: 10, left: 5, top: 6),
+                        bottom: 6.0, right: 10.0, left: 5.0, top: 6.0),
                     elevation: 4,
                     child: ListTile(
                       minVerticalPadding: 20,
@@ -68,10 +68,10 @@ class _MateriScreenState extends State<MateriScreen> {
                           style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
-                              fontSize: 14)),
+                              )),
                       subtitle: Text(d[index]['judul'],
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 10)),
+                              color: Colors.white)),
                       trailing: Column(
                         children: [
                           SizedBox(
@@ -81,7 +81,6 @@ class _MateriScreenState extends State<MateriScreen> {
                             overflow: TextOverflow.fade,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 10
                                 )),
                           ),
                           Container(
@@ -94,7 +93,7 @@ class _MateriScreenState extends State<MateriScreen> {
                                   d[index]['kelas_mapel']['guru']
                                       ['gelar_belakang']),
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 10),
+                                  color: Colors.white),
                             ),
                           ),
                         ],
