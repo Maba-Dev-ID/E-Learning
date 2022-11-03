@@ -9,5 +9,5 @@ Map apiEndPoint = {
   "TUGASALL":
       '$baseUrl/student_area/tugas?judul=&rombel_id=all&mapel_id=all&is_done=all&page=1 ',
   //"MATERIALL": '$baseUrl/student_area/materi?manual_filter=0perPage=10&searchTerm=',
-  "MATERIALL": '$baseUrl/student_area/materi',
+  "MATERIALL": '$baseUrl/student_area/materi?perPage=50',
 };
