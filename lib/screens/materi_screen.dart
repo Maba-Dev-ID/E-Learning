@@ -28,55 +28,55 @@ class _MateriScreenState extends State<MateriScreen> {
   }
 
   showTimeAgo(datetime) {
-  var date = DateTime.parse(datetime);
-  var hari = DateFormat('dd').format(date).toString(); //ubah tanggal
-  var bulan = DateFormat('MMMM').format(date).toString();
-  var tahun = DateFormat('y').format(date).toString(); //ubah years
-  var isBulan;
-  print(bulan);
-  switch (bulan) {
-    case "January":
-      isBulan = "Januari";
-      break;
-    case "February":
-      isBulan = "Februari";
-      break;
-    case "March":
-      isBulan = "Maret";
-      break;
-    case "April":
-      isBulan = "April";
-      break;
-    case "May":
-      isBulan = "Mei";
-      break;
-    case "June":
-      isBulan = "Juni";
-      break;
-    case "July":
-      isBulan = "Juli";
-      break;
-    case "August":
-      isBulan = "Agustus";
-      break;
-    case "September":
-      isBulan = "September";
-      break;
-    case "October":
-      isBulan = "Oktober";
-      break;
-    case "November":
-      isBulan = "November";
-      break;
-    case "December":
-      isBulan = "Desember";
-      break;
-    default:
-      print(isBulan);
-      break;
+    var date = DateTime.parse(datetime);
+    var hari = DateFormat('dd').format(date).toString(); //ubah tanggal
+    var bulan = DateFormat('MMMM').format(date).toString();
+    var tahun = DateFormat('y').format(date).toString(); //ubah years
+    var isBulan;
+    print(bulan);
+    switch (bulan) {
+      case "January":
+        isBulan = "Januari";
+        break;
+      case "February":
+        isBulan = "Februari";
+        break;
+      case "March":
+        isBulan = "Maret";
+        break;
+      case "April":
+        isBulan = "April";
+        break;
+      case "May":
+        isBulan = "Mei";
+        break;
+      case "June":
+        isBulan = "Juni";
+        break;
+      case "July":
+        isBulan = "Juli";
+        break;
+      case "August":
+        isBulan = "Agustus";
+        break;
+      case "September":
+        isBulan = "September";
+        break;
+      case "October":
+        isBulan = "Oktober";
+        break;
+      case "November":
+        isBulan = "November";
+        break;
+      case "December":
+        isBulan = "Desember";
+        break;
+      default:
+        print(isBulan);
+        break;
+    }
+    return "${hari}, ${isBulan} ${tahun}";
   }
-  return "${hari}, ${isBulan} ${tahun}";
-}
 
   transLateday(day) {
     var date = DateTime.parse(day);
@@ -152,7 +152,6 @@ class _MateriScreenState extends State<MateriScreen> {
                       subtitle: Text(d[index]['judul'],
                           style: const TextStyle(color: Colors.white)),
                       trailing: Container(
-                        
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,7 +176,8 @@ class _MateriScreenState extends State<MateriScreen> {
                                     d[index]['kelas_mapel']['guru']['nama'],
                                     d[index]['kelas_mapel']['guru']
                                         ['gelar_belakang']),
-                                style: const TextStyle(color: Colors.black, fontSize: 11),
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 11),
                               ),
                             ),
                           ],
