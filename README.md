@@ -12,3 +12,5 @@ untuk versi official Website E-Learning [link](https://elearning.itg.ac.id/dashb
 - memudahkan membaca file dokumen materi dari pembelajaran kampus
 - memudahkan pengiriman tugas langsung dari aplikasi tanpa login
 
+--------------------------
+![E-Learning APPS](https://user-images.githubusercontent.com/80303709/200120186-58f368a5-452a-43f1-a1bc-c88d30474242.png)
