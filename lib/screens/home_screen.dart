@@ -253,9 +253,12 @@ Widget kelas(MapelProvider mapelProvider) {
                       (index) => GestureDetector(
                             onTap: () {
                               print(data[index]['kelas_mapel']['mapel']['id']);
-                              Navigator.pushNamed(context, "/kelas",
-                                  arguments: snapshot.data[0]['kelas_mapel']
-                                      ['mapel']['id']);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => KelasScreen(
+                                            argument: data[index],
+                                          )));
                             },
                             child: KelasCard(
                               namaMatakul: data[index]['kelas_mapel']['mapel']

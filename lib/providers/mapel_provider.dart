@@ -103,7 +103,7 @@ class MapelProvider extends ChangeNotifier {
 
   getMateriById(id) async {
     var token = await storage.read('token');
-    Uri url = Uri.parse(apiEndPoint['MATERI_ID'] + id + "&perPage=0");
+    Uri url = Uri.parse(apiEndPoint['MATERI_ID'] + id.toString());
 
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});

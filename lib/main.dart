@@ -39,7 +39,7 @@ class _LMSAppsState extends State<LMSApps> {
           '/profile': (context) => const ProfileScreen(),
           '/tugas': (context) => const TugasScreen(),
           '/materi': (context) => const MateriScreen(),
-          '/kelas': (context) => const KelasScreen(),
+          // '/kelas': (context) => const KelasScreen(argument: null,),
         },
         theme: ThemeData(fontFamily: "Poppins"),
       );
