@@ -93,11 +93,25 @@ class MapelProvider extends ChangeNotifier {
 
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
-        var result = jsonDecode(response.body)['data'];
-        if (response.statusCode == 200) {
-          return result;
-  } else{
-    throw 'error get materi user';
+    var result = jsonDecode(response.body)['data'];
+    if (response.statusCode == 200) {
+      return result;
+    } else {
+      throw 'error get materi user';
+    }
   }
-}
+
+  getMateriById(id) async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['MATERI_ID'] + id + "&perPage=0");
+
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body)['data'];
+    if (response.statusCode == 200) {
+      return result;
+    } else {
+      throw 'error get materi user';
+    }
+  }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/src/material/expansion_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widget/appbar.dart';
 import 'package:flutter_application_1/widget/loading.dart';
 import 'package:provider/provider.dart';
 import '../providers/mapel_provider.dart';
@@ -13,8 +14,6 @@ class TugasScreen extends StatefulWidget {
   const TugasScreen({Key? key}) : super(key: key);
 
   @override
-
-
   State<TugasScreen> createState() => _TugasScreenState();
 }
 
@@ -48,52 +47,44 @@ class _TugasScreenState extends State<TugasScreen> {
     var tugasAll = Provider.of<MapelProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: kWhiteBg,
-        appBar: AppBar(
-          title: const Text("Tugas",
-              style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xff06283D))),
-          backgroundColor: kWhiteBg,
-          foregroundColor: Colors.black,
-          toolbarHeight: 110,
-          elevation: 0,
-          centerTitle: true,
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
-        ),
+        appBar: appbarWidget("Tugas"),
         body: SafeArea(
           child: ListView(
             children: [
-              DropdownButton<String>(
-                focusColor: Colors.white,
-                value: _chosenValue,
-                //elevation: 5,
-                style: TextStyle(color: Colors.white),
-                iconEnabledColor: Colors.black,
-                items: <String>[
-                  'Technopreneuship',
-                  'matematika diskrit',
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  );
-                }).toList(),
-                hint: Text(
-                  _chosenValue ?? "Kelas yang dipilih",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: DropdownButton<String>(
+                  focusColor: Colors.white,
+                  value: _chosenValue,
+                  isExpanded: true,
+                  //elevation: 5,
+                  style: const TextStyle(color: Colors.white),
+                  iconEnabledColor: Colors.black,
+                  items: <String>[
+                    'Technopreneuship',
+                    'matematika diskrit',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    );
+                  }).toList(),
+                  hint: Text(
+                    _chosenValue ?? "Kelas yang dipilih",
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _chosenValue = value;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    _chosenValue = value;
-                  });
-                },
               ),
               FutureBuilder(
                 future: tugasAll.getTugas(),

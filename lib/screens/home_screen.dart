@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/mapel_provider.dart';
+import 'package:flutter_application_1/screens/kelas.screen.dart';
 import 'package:flutter_application_1/widget/task.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
@@ -182,7 +183,7 @@ Widget task(MapelProvider mapelProvider) {
       }
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.pushNamed(context, "/materi");
           },
           child: Task(
@@ -249,12 +250,20 @@ Widget kelas(MapelProvider mapelProvider) {
                 child: Row(
                   children: List.generate(
                       snapshot.data.length,
-                      (index) => KelasCard(
-                            namaMatakul: data[index]['kelas_mapel']['mapel']
-                                ['nama'],
-                            hari: data[index]['hari'],
-                            wMulai: data[index]['jam_mulai'],
-                            wSelesai: data[index]['jam_selesai'],
+                      (index) => GestureDetector(
+                            onTap: () {
+                              print(data[index]['kelas_mapel']['mapel']['id']);
+                              Navigator.pushNamed(context, "/kelas",
+                                  arguments: snapshot.data[0]['kelas_mapel']
+                                      ['mapel']['id']);
+                            },
+                            child: KelasCard(
+                              namaMatakul: data[index]['kelas_mapel']['mapel']
+                                  ['nama'],
+                              hari: data[index]['hari'],
+                              wMulai: data[index]['jam_mulai'],
+                              wSelesai: data[index]['jam_selesai'],
+                            ),
                           )),
                 ),
               );

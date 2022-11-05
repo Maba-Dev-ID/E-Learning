@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/mapel_provider.dart';
 import 'package:flutter_application_1/providers/user_provider.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
+import 'package:flutter_application_1/screens/kelas.screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/materi_screen.dart';
 import 'package:flutter_application_1/screens/profile_screen.dart';
@@ -38,6 +39,7 @@ class _LMSAppsState extends State<LMSApps> {
           '/profile': (context) => const ProfileScreen(),
           '/tugas': (context) => const TugasScreen(),
           '/materi': (context) => const MateriScreen(),
+          '/kelas': (context) => const KelasScreen(),
         },
         theme: ThemeData(fontFamily: "Poppins"),
       );

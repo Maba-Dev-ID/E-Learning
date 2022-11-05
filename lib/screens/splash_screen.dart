@@ -17,7 +17,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   token() async {
     String? token = await storage.read('token');
-    print(token);
     if (token != null) {
       isLogin = true;
     }
