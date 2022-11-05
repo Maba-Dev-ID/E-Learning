@@ -13,4 +13,6 @@ untuk versi official Website E-Learning [link](https://elearning.itg.ac.id/dashb
 - memudahkan pengiriman tugas langsung dari aplikasi tanpa login
 
 --------------------------
+![](https://user-images.githubusercontent.com/80303709/200120294-0fef26ef-7106-47bb-9fea-62f115fa21b9.png)
+
 ![E-Learning APPS](https://user-images.githubusercontent.com/80303709/200120186-58f368a5-452a-43f1-a1bc-c88d30474242.png)
