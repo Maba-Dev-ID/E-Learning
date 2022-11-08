@@ -124,7 +124,6 @@ class _MateriScreenState extends State<MateriScreen> {
           
         ),
         body: SafeArea(
-                    
             child: FutureBuilder(
           future: materiAll.getMateri(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
