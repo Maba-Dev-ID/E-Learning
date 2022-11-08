@@ -121,8 +121,10 @@ class _MateriScreenState extends State<MateriScreen> {
           elevation: 0,
           centerTitle: true,
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+          
         ),
         body: SafeArea(
+                    
             child: FutureBuilder(
           future: materiAll.getMateri(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -131,6 +133,7 @@ class _MateriScreenState extends State<MateriScreen> {
                 child: CircularProgressIndicator(),
               );
             }
+            // resizeToAvoidBottomPadding : false;
             var d = snapshot.data;
             return SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -154,7 +157,7 @@ class _MateriScreenState extends State<MateriScreen> {
                       trailing: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
                               transLateday(d[index]['created_at'].toString()),
@@ -166,7 +169,8 @@ class _MateriScreenState extends State<MateriScreen> {
                                   color: Colors.white,
                                 )),
                             Container(
-                              padding: EdgeInsets.fromLTRB(1.5, 1, 1.5, 1),
+                              // padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
+                              padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white70,
@@ -176,7 +180,7 @@ class _MateriScreenState extends State<MateriScreen> {
                                     d[index]['kelas_mapel']['guru']['nama'],
                                     d[index]['kelas_mapel']['guru']
                                         ['gelar_belakang']),
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black, fontSize: 11),
                               ),
                             ),
@@ -187,6 +191,7 @@ class _MateriScreenState extends State<MateriScreen> {
                   ),
                 )));
           },
+
         )));
   }
 }
