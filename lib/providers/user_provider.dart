@@ -19,6 +19,7 @@ class UserProvider extends ChangeNotifier {
       body: {"username": username, "password": password},
     );
     var result = jsonDecode(response.body);
+    print(result);
     showDialog(context: context, builder: (context) => loading());
     if (result['status'] == 1) {
       var token = result['token'];

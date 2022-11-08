@@ -86,4 +86,45 @@ class MapelProvider extends ChangeNotifier {
       throw 'error get profile user';
     }
   }
+
+  getMateri() async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['MATERIALL']);
+
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body)['data'];
+    if (response.statusCode == 200) {
+      return result;
+    } else {
+      throw 'error get materi user';
+    }
+  }
+
+  getMapel(
+      String? idMapel, String? idRombel, String? isDone, String? pages) async {
+    var token = await storage.read('token');
+    var rombelId = "rombel_id=${idRombel ?? 'all'}";
+    var mapelId = "mapel_id=${idMapel ?? 'all'}";
+    var done = "is_done=${isDone ?? 'all'}";
+    var page = "is_done=${pages ?? '1'}";
+    Uri url =
+        Uri.parse("${apiEndPoint['MAPEL']}?$mapelId&$rombelId&$done&$page");
+
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+
+    if (response.statusCode == 200) {
+      List result = (json.decode(response.body));
+      Map<String, String> mapel = <String, String>{};
+
+      for (var element in result) {
+        mapel[element['nama']] = element['mapel_id'];
+      }
+      // print(mapel);
+      return mapel;
+    } else {
+      throw 'error get materi user';
+    }
+  }
 }

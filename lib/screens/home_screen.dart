@@ -66,8 +66,11 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
                 ),
               ],
             ),
-            const CircleAvatar(
-              backgroundColor: Color(0xffEEEEEE),
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, "/profile"),
+              child: const CircleAvatar(
+                backgroundColor: Color(0xffEEEEEE),
+              ),
             )
           ],
         );
@@ -178,9 +181,14 @@ Widget task(MapelProvider mapelProvider) {
                     )));
       }
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Task(
-          taskName: "Materi",
-          total: "${snapshot.data['materi']['total']}",
+        GestureDetector(
+          onTap: (){
+            Navigator.pushNamed(context, "/materi");
+          },
+          child: Task(
+            taskName: "Materi",
+            total: "${snapshot.data['materi']['total']}",
+          ),
         ),
         GestureDetector(
           onTap: () {
