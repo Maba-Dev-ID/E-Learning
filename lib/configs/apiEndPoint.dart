@@ -8,6 +8,6 @@ Map apiEndPoint = {
   "MATAKULIAH": '$baseUrl/student_area/jadwal',
   "TUGASALL":
       '$baseUrl/student_area/tugas?judul=&rombel_id=all&mapel_id=all&is_done=all&page=1 ',
-  //"MATERIALL": '$baseUrl/student_area/materi?manual_filter=0perPage=10&searchTerm=',
-  "MATERIALL": '$baseUrl/student_area/materi?perPage=50',
+  "MATERIALL": '$baseUrl/student_area/materi',
+  "MAPEL": '$baseUrl/student_area/mapel'
 };
