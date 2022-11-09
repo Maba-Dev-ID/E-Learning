@@ -26,9 +26,7 @@ class _MateriScreenState extends State<MateriScreen> {
   String? done;
   String? page;
   namaDosen(namadepan, gelar) {
-    if (gelar == null) {
-      gelar = "";
-    }
+    gelar ??= "";
     return namadepan + gelar;
   }
 
@@ -37,8 +35,8 @@ class _MateriScreenState extends State<MateriScreen> {
     var hari = DateFormat('dd').format(date).toString(); //ubah tanggal
     var bulan = DateFormat('MMMM').format(date).toString();
     var tahun = DateFormat('y').format(date).toString(); //ubah years
-    var isBulan;
-    print(bulan);
+    String? isBulan;
+    // print(bulan);
     switch (bulan) {
       case "January":
         isBulan = "Januari";
@@ -80,7 +78,7 @@ class _MateriScreenState extends State<MateriScreen> {
         print(isBulan);
         break;
     }
-    return "${hari}, ${isBulan} ${tahun}";
+    return "$hari, $isBulan $tahun";
   }
 
   transLateday(day) {
