@@ -35,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
     var loginProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       body: ListView(
-        reverse: true,
         // padding: EdgeInsets.all(10),
         children: [
           Container(

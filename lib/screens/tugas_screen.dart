@@ -130,6 +130,7 @@ class _TugasScreenState extends State<TugasScreen> {
                             setState(() {
                               print(value);
                               id = value;
+                              chosenValue = value;
                             });
                           },
                         ),

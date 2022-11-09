@@ -20,6 +20,11 @@ class MateriScreen extends StatefulWidget {
 }
 
 class _MateriScreenState extends State<MateriScreen> {
+  String? chosenValue;
+  String? id;
+  String? rombel;
+  String? done;
+  String? page;
   namaDosen(namadepan, gelar) {
     if (gelar == null) {
       gelar = "";
@@ -121,76 +126,150 @@ class _MateriScreenState extends State<MateriScreen> {
           elevation: 0,
           centerTitle: true,
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
-          
         ),
         body: SafeArea(
-            child: FutureBuilder(
-          future: materiAll.getMateri(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            // resizeToAvoidBottomPadding : false;
-            var d = snapshot.data;
-            return SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                    children: List.generate(
-                  snapshot.data.length,
-                  (index) => Card(
-                    color: kGreenPrimary,
-                    margin: const EdgeInsets.only(
-                        bottom: 6.0, right: 10.0, left: 5.0, top: 6.0),
-                    elevation: 4,
-                    child: ListTile(
-                      minVerticalPadding: 15,
-                      title: Text(d[index]['mapel']['nama'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                          )),
-                      subtitle: Text(d[index]['judul'],
-                          style: const TextStyle(color: Colors.white)),
-                      trailing: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              transLateday(d[index]['created_at'].toString()),
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Text(showTimeAgo(d[index]['created_at'].toString()),
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                )),
-                            Container(
-                              // padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
-                              padding: EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white70,
-                              ),
-                              child: Text(
-                                namaDosen(
-                                    d[index]['kelas_mapel']['guru']['nama'],
-                                    d[index]['kelas_mapel']['guru']
-                                        ['gelar_belakang']),
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 11),
-                              ),
-                            ),
+            child: ListView(
+          children: [
+            FutureBuilder(
+                future: materiAll.getMapel(id, rombel, done, page),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return Container(
+                      decoration: BoxDecoration(
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Color.fromARGB(26, 0, 0, 0),
+                                offset: Offset(2, 5),
+                                blurRadius: 4)
                           ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 10),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          menuMaxHeight: 250,
+                          borderRadius: BorderRadius.circular(15),
+                          focusColor: Colors.white,
+                          value: chosenValue,
+                          style: const TextStyle(color: Colors.white),
+                          iconEnabledColor: Colors.black,
+                          isExpanded: true,
+                          selectedItemBuilder: (BuildContext context) {
+                            return snapshot.data.keys.map<Widget>((item) {
+                              return Container(
+                                alignment: Alignment.centerLeft,
+                                constraints:
+                                    const BoxConstraints(minWidth: 100),
+                                child: Text(item,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                              );
+                            }).toList();
+                          },
+                          items: snapshot.data.values
+                              .map<DropdownMenuItem<String>>((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(item,
+                                  style: TextStyle(color: Colors.black)),
+                            );
+                          }).toList(),
+                          hint: Text(
+                            chosenValue ?? "Kelas yang dipilih",
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              print(value);
+                              id = value;
+                              chosenValue = value;
+                            });
+                          },
                         ),
                       ),
-                    ),
-                  ),
-                )));
-          },
-
-        )));
+                    );
+                  }
+  }),
+                  // resizeToAvoidBottomPadding : false;
+                  FutureBuilder(
+                future: materiAll.getMateri(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  var d = snapshot.data;
+                  return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            snapshot.data.length,
+                            (index) => Card(
+                              color: kGreenPrimary,
+                              margin: const EdgeInsets.only(
+                                  bottom: 6.0, right: 5.0, left: 5.0, top: 6.0),
+                              elevation: 4,
+                              child: ListTile(
+                                  minVerticalPadding: 10,
+                                  title: Text(d[index]['mapel']['nama'],
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                  subtitle: Text(d[index]['judul'],
+                                      style:
+                                          const TextStyle(color: Colors.white)),
+                                  trailing: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        transLateday(
+                                            d[index]['created_at'].toString()),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Text(
+                                          showTimeAgo(d[index]['created_at']
+                                              .toString()),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          )),
+                                      Container(
+                                        // padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
+                                        // padding: EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          // borderRadius: BorderRadius.circular(10),
+                                          color: Colors.white70,
+                                        ),
+                                        child: Text(
+                                          namaDosen(
+                                              d[index]['kelas_mapel']['guru']
+                                                  ['nama'],
+                                              d[index]['kelas_mapel']['guru']
+                                                  ['gelar_belakang']),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 11),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          )));
+  },)]),
+        ));
   }
 }
