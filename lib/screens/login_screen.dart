@@ -29,7 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var loginProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
-      body: Stack(
+      body: ListView(
+        reverse: true,
+        // padding: EdgeInsets.all(10),
         children: [
           SizedBox(
               height: MediaQuery.of(context).size.height,

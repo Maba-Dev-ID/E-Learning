@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:ffi';
 
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/src/material/expansion_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widget/loading.dart';
@@ -18,14 +21,89 @@ class MateriScreen extends StatefulWidget {
 
 class _MateriScreenState extends State<MateriScreen> {
   namaDosen(namadepan, gelar) {
-    if (gelar == null) {
-      gelar = "";
-    }
+    gelar ??= "";
     return namadepan + gelar;
+  }
+
+  showTimeAgo(datetime) {
+    var date = DateTime.parse(datetime);
+    var hari = DateFormat('dd').format(date).toString(); //ubah tanggal
+    var bulan = DateFormat('MMMM').format(date).toString();
+    var tahun = DateFormat('y').format(date).toString(); //ubah years
+    String? isBulan;
+    // print(bulan);
+    switch (bulan) {
+      case "January":
+        isBulan = "Januari";
+        break;
+      case "February":
+        isBulan = "Februari";
+        break;
+      case "March":
+        isBulan = "Maret";
+        break;
+      case "April":
+        isBulan = "April";
+        break;
+      case "May":
+        isBulan = "Mei";
+        break;
+      case "June":
+        isBulan = "Juni";
+        break;
+      case "July":
+        isBulan = "Juli";
+        break;
+      case "August":
+        isBulan = "Agustus";
+        break;
+      case "September":
+        isBulan = "September";
+        break;
+      case "October":
+        isBulan = "Oktober";
+        break;
+      case "November":
+        isBulan = "November";
+        break;
+      case "December":
+        isBulan = "Desember";
+        break;
+      default:
+        print(isBulan);
+        break;
+    }
+    return "$hari, $isBulan $tahun";
+  }
+
+  transLateday(day) {
+    var date = DateTime.parse(day);
+    String day1 = DateFormat.EEEE().format(date);
+    switch (day1) {
+      case "Monday":
+        return "Senin";
+      case "Tuesday":
+        return "Selasa";
+      case "Wednesday":
+        return "Rabu";
+      case "Thursday":
+        return "Kamis";
+      case "Friday":
+        return "Jumat";
+      case "Saturday":
+        return "Sabtu";
+      case "Sunday":
+        return "Minggu";
+      default:
+        return "Error";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // DateTime datetime = DateTime.now();
+    // var DateFormat ;
+
     var materiAll = Provider.of<MapelProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: kWhiteBg,
@@ -51,6 +129,7 @@ class _MateriScreenState extends State<MateriScreen> {
                 child: CircularProgressIndicator(),
               );
             }
+            // resizeToAvoidBottomPadding : false;
             var d = snapshot.data;
             return SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -63,37 +142,45 @@ class _MateriScreenState extends State<MateriScreen> {
                         bottom: 6.0, right: 10.0, left: 5.0, top: 6.0),
                     elevation: 4,
                     child: ListTile(
-                      minVerticalPadding: 20,
+                      minVerticalPadding: 15,
                       title: Text(d[index]['mapel']['nama'],
                           style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              )),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          )),
                       subtitle: Text(d[index]['judul'],
-                          style: const TextStyle(
-                              color: Colors.white)),
+                          style: const TextStyle(color: Colors.white)),
                       trailing: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SizedBox(
-                            width: 60,
-                            height: 20,
-                            child: Text(d[index]['created_at'],
-                            overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                )),
+                          Text(
+                            transLateday(d[index]['created_at'].toString()),
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
+                          Text(showTimeAgo(d[index]['created_at'].toString()),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
                           Container(
-                            width: 150,
-                            height: 20,
-                            alignment: Alignment.center,
+                            // padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
+                            width: 100,
+                            // padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white70,
+                            ),
                             child: Text(
                               namaDosen(
                                   d[index]['kelas_mapel']['guru']['nama'],
                                   d[index]['kelas_mapel']['guru']
                                       ['gelar_belakang']),
-                              style: const TextStyle(
-                                  color: Colors.white),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 11),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
