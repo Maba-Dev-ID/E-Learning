@@ -149,6 +149,7 @@ class _TugasScreenState extends State<TugasScreen> {
                   var d = snapshot.data;
                   return SingleChildScrollView(
                     scrollDirection: Axis.vertical,
+                    
                     child: Column(
                         children: List.generate(
                             snapshot.data.length,
