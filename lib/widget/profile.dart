@@ -40,7 +40,10 @@ class SkeltonProfile extends StatelessWidget {
         Container(
           height: 20,
           width: 100,
-          color: const Color(0xffeeeeee),
+          decoration: BoxDecoration(
+            color: const Color(0xffeeeeee),
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
         SizedBox(
           height: 10,
@@ -48,7 +51,10 @@ class SkeltonProfile extends StatelessWidget {
         Container(
           height: 10,
           width: 80,
-          color: const Color(0xffeeeeee),
+          decoration: BoxDecoration(
+            color: const Color(0xffeeeeee),
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
         Container(
           decoration: BoxDecoration(
@@ -63,12 +69,18 @@ class SkeltonProfile extends StatelessWidget {
               Container(
                 height: 20,
                 width: 70,
-                color: const Color(0xffeeeeee),
+                decoration: BoxDecoration(
+                  color: const Color(0xffeeeeee),
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
               Container(
                 height: 20,
                 width: 70,
-                color: const Color(0xffeeeeee),
+                decoration: BoxDecoration(
+                  color: const Color(0xffeeeeee),
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ],
           ),
@@ -80,7 +92,10 @@ class SkeltonProfile extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 20),
               height: 35,
               width: 150,
-              color: const Color(0xffeeeeee),
+              decoration: BoxDecoration(
+                color: const Color(0xffeeeeee),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
         )
