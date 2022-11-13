@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../helper/helper_tugas.dart';
 import '../providers/mapel_provider.dart';
 import '../utils/theme.dart';
 
@@ -16,29 +17,6 @@ class _TugasScreenState extends State<TugasScreen> {
   String? rombel;
   String? done;
   String? page;
-
-  splitTanggal(tanggal) {
-    var isSplit = tanggal.split(' ');
-    return isSplit[0];
-  }
-
-  splitWaktu(tanggal) {
-    var isSplit = tanggal.split(' ');
-    return isSplit[1];
-  }
-
-  changeColor(isDone, tglUpload, deadline) {
-    if (tglUpload != null) {
-      var ddline = deadline.replaceAll(RegExp("-|:| "), "");
-      var tglUp = tglUpload.replaceAll(RegExp("-|:| "), "");
-      if (int.parse(tglUp) >= int.parse(ddline)) {
-        return Colors.yellow;
-      }
-    } else if (isDone == "n") {
-      return Colors.red;
-    }
-    return Colors.greenAccent;
-  }
 
   @override
   Widget build(BuildContext context) {

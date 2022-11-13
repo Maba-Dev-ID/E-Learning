@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/services/storaged.dart';
 import 'package:http/http.dart' as http;
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../configs/apiEndPoint.dart';
 
@@ -89,7 +92,7 @@ class MapelProvider extends ChangeNotifier {
 
   getMateri() async {
     var token = await storage.read('token');
-    Uri url = Uri.parse(apiEndPoint['MATERIALL']);
+    Uri url = Uri.parse(apiEndPoint['MATERIALL'] + "?perPage=100");
 
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
@@ -98,6 +101,42 @@ class MapelProvider extends ChangeNotifier {
       return result;
     } else {
       throw 'error get materi user';
+    }
+  }
+
+  getMateriById(String id, context) async {
+    var token = await storage.read('token');
+    Uri url = Uri.parse(apiEndPoint['MATERIALL'] + "/$id");
+    print(url);
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    var result = jsonDecode(response.body);
+    if (result['status'] == 1) {
+      return result['data'];
+    } else {
+      print(result);
+      Navigator.pop(context);
+      // throw 'error get materi user';
+    }
+  }
+
+  getFileFromUrl(String url) async {
+    try {
+      url = "https://elearning.itg.ac.id/upload/materi/$url";
+      print(Uri.parse(url));
+      var data = await http.get(Uri.parse(url));
+      var bytes = data.bodyBytes;
+      Directory dir = await getApplicationDocumentsDirectory();
+      print(dir);
+      List<String> urlName = (url.toString()).split("/");
+      String name = urlName[urlName.length - 1];
+      File file = File("${dir.path}/$name");
+      print(file);
+      File urlFile = await file.writeAsBytes(bytes);
+      await OpenFile.open(urlFile.path);
+    } catch (e) {
+      print(e);
+      // throw Exception("Error opening url file");
     }
   }
 
