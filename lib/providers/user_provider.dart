@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/services/storaged.dart';
+import 'package:flutter_application_1/utils/theme.dart';
 
 import 'package:http/http.dart' as http;
 import '../configs/apiEndPoint.dart';
@@ -68,7 +69,10 @@ class UserProvider extends ChangeNotifier {
         horizontal: 100,
       ),
       child: const Center(
-        child: LinearProgressIndicator(),
+        child: LinearProgressIndicator(
+          color: kGreenPrimary,
+          backgroundColor: kWhiteBg,
+        ),
       ),
     );
   }
