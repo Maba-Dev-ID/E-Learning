@@ -157,18 +157,19 @@ class _MateriScreenState extends State<MateriScreen> {
                           Text(
                             transLateday(d[index]['created_at'].toString()),
                             style: const TextStyle(
+                              fontSize: 11,
                               color: Colors.white,
                             ),
                           ),
                           Text(showTimeAgo(d[index]['created_at'].toString()),
-                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
+                                fontSize: 11,
                                 color: Colors.white,
                               )),
                           Container(
                             // padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
-                            width: 100,
-                            // padding: EdgeInsets.all(2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 2),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white70,
@@ -179,8 +180,7 @@ class _MateriScreenState extends State<MateriScreen> {
                                   d[index]['kelas_mapel']['guru']
                                       ['gelar_belakang']),
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 11),
-                              overflow: TextOverflow.ellipsis,
+                                  TextStyle(color: Colors.black, fontSize: 10),
                             ),
                           ),
                         ],
