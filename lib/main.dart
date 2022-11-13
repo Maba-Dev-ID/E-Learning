@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_application_1/providers/mapel_provider.dart';
 import 'package:flutter_application_1/providers/user_provider.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
@@ -13,13 +11,11 @@ import 'package:flutter_application_1/screens/tugas_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => UserProvider()),
     ChangeNotifierProvider(create: (_) => MapelProvider()),
   ], child: const LMSApps()));
 }
-
 
 class LMSApps extends StatefulWidget {
   const LMSApps({super.key});
