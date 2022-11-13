@@ -1,79 +1,47 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
+import 'package:flutter_application_1/providers/mapel_provider.dart';
+import 'package:flutter_application_1/providers/user_provider.dart';
+import 'package:flutter_application_1/screens/home_screen.dart';
+import 'package:flutter_application_1/screens/login_screen.dart';
+import 'package:flutter_application_1/screens/materi_screen.dart';
+import 'package:flutter_application_1/screens/profile_screen.dart';
+import 'package:flutter_application_1/screens/splash_screen.dart';
+import 'package:flutter_application_1/screens/tugas_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => UserProvider()),
+    ChangeNotifierProvider(create: (_) => MapelProvider()),
+  ], child: const LMSApps()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LMSApps extends StatefulWidget {
+  const LMSApps({super.key});
 
+  @override
+  State<LMSApps> createState() => _LMSAppsState();
+}
+
+class _LMSAppsState extends State<LMSApps> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffF7F6FB),
-      body: SafeArea(
-          child: Container(
-        height: 100,
-        padding: const EdgeInsets.all(20),
-        // decoration: BoxDecoration(color: Colors.red),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 30,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Hi, Nama',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      Text('Selamat Datang!'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Icon(Icons.menu),
-              ],
-            )
-          ],
-        ),
-      )),
-    );
+    return Consumer(builder: (context, value, child) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'LMS Mobile Apps',
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/login': (context) => const LoginScreen(),
+          '/home': (context) => const HomeScreen(),
+          '/profile': (context) => const ProfileScreen(),
+          '/tugas': (context) => const TugasScreen(),
+          '/materi': (context) => const MateriScreen(),
+        },
+        theme: ThemeData(fontFamily: "Poppins"),
+      );
+    });
   }
 }
