@@ -52,46 +52,6 @@ PreferredSizeWidget appBarProfile(BuildContext context) {
       centerTitle: true,
       actions: [
         GestureDetector(
-          // onTap: () {
-          //   showDialog(context: context, builder: (context) => const Loading());
-          //   Timer(const Duration(seconds: 1), () {
-          //     storage.deleteAll();
-          //     Navigator.pushNamedAndRemoveUntil(
-          //         (context), "/login", (route) => false);
-          //   });
-          // },
-          // child: Container(
-          //   color: Color(0xcf000000),
-          //   child: Center(
-          //     child: Container(
-          //       width: 500.0,
-          //       height: 150.0,
-          //       child: Card(
-          //         child: Column(
-          //           children: [
-          //             ListTile(
-          //               leading: Icon(Icons.logout),
-          //               title: Text('log_out'),
-          //               subtitle: Text('Are_you_sure_to_log_out'),
-          //             ),
-          //             ButtonBar(
-          //               children: [
-          //                 TextButton(
-          //                   onPressed: () {},
-          //                   child: Text('_cancel_'),
-          //                 ),
-          //                 ElevatedButton(
-          //                   onPressed: () {},
-          //                   child: Text('_log_out_'),
-          //                 )
-          //               ],
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           onTap: () {
             showDialog(context: context, builder: (context) => const Loading());
             Timer(const Duration(seconds: 1), () {
@@ -100,12 +60,12 @@ PreferredSizeWidget appBarProfile(BuildContext context) {
                   (context), "/login", (route) => false);
             });
           },
-          child: Icon(
+          child: const Icon(
             Icons.logout,
             color: Colors.red,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 15,
         ),
       ],
