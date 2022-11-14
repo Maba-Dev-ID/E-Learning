@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/storaged.dart';
-import 'package:flutter_application_1/utils/theme.dart';
-
 import 'package:http/http.dart' as http;
 import '../configs/apiEndPoint.dart';
+import '../services/storaged.dart';
+import '../utils/theme.dart';
 
 class UserProvider extends ChangeNotifier {
   var storage = SecureStorage();

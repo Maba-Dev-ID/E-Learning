@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/storaged.dart';
-import 'package:flutter_application_1/widget/loading.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
+import '../services/storaged.dart';
 import '../utils/theme.dart';
+import '../widget/loading.dart';
 import '../widget/profile.dart';
 
 class ProfileScreen extends StatefulWidget {

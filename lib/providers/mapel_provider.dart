@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/storaged.dart';
-import 'package:flutter_application_1/utils/theme.dart';
-import 'package:flutter_application_1/widget/modal_foto_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../configs/apiEndPoint.dart';
+import '../services/storaged.dart';
+import '../widget/modal_foto_widget.dart';
 
 class MapelProvider extends ChangeNotifier {
   var storage = SecureStorage();

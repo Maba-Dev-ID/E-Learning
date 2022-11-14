@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_application_1/providers/mapel_provider.dart';
-import 'package:flutter_application_1/providers/user_provider.dart';
-import 'package:flutter_application_1/screens/home_screen.dart';
-import 'package:flutter_application_1/screens/login_screen.dart';
-import 'package:flutter_application_1/screens/materi_screen.dart';
-import 'package:flutter_application_1/screens/profile_screen.dart';
-import 'package:flutter_application_1/screens/splash_screen.dart';
-import 'package:flutter_application_1/screens/tugas_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/mapel_provider.dart';
+import 'providers/user_provider.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/materi_screen.dart';
+import 'screens/profile_screen.dart';
+import 'screens/splash_screen.dart';
+import 'screens/tugas_screen.dart';
 
 void main() {
   runApp(MultiProvider(providers: [

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/providers/mapel_provider.dart';
-import 'package:flutter_application_1/widget/task.dart';
 import 'package:provider/provider.dart';
+import '../providers/mapel_provider.dart';
 import '../providers/user_provider.dart';
 import '../utils/theme.dart';
 import '../widget/kelas.dart';
+import '../widget/task.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -182,7 +182,7 @@ Widget task(MapelProvider mapelProvider) {
       }
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.pushNamed(context, "/materi");
           },
           child: Task(

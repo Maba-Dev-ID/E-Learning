@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/configs/config.dart';
+import 'config.dart';
 
 Map apiEndPoint = {
   "LOGIN": '$baseUrl/auth/login',

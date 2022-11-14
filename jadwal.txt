@@ -1,4 +1,0 @@
-
-nama_matkul = [senin['kelas_mapel']['mapel']['nama']]
-jadwal_hari = [senin['hari']]
-jadwal_waktu = [senin['jam_mulai']+ senin['jam_selesai']]
