@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/storaged.dart';
-import 'package:flutter_application_1/utils/theme.dart';
 import 'package:lottie/lottie.dart';
+
+import '../services/storaged.dart';
+import '../utils/theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

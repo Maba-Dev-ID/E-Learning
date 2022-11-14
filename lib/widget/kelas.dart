@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/utils/theme.dart';
 
 class KelasCard extends StatelessWidget {
   final String? namaMatakul;

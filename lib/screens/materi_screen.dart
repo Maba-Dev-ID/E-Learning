@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/one_materi.dart';
 import 'package:provider/provider.dart';
 import '../providers/mapel_provider.dart';
 import '../utils/theme.dart';
 import '../helper/helper_materi.dart';
+import 'one_materi.dart';
 
 class MateriScreen extends StatefulWidget {
   const MateriScreen({Key? key}) : super(key: key);
