@@ -29,8 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var loginProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
+        // resizeToAvoidBottomInset: false,
+        body: ListView(
+      children: [
+        Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
@@ -41,12 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
             fit: BoxFit.cover,
           )),
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
             child: Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: 40,
-                  vertical: MediaQuery.of(context).size.height / 4.5),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 40,
+              ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Header(),
@@ -59,7 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        ));
+        ),
+      ],
+    ));
   }
 }
 
@@ -113,15 +118,12 @@ class FormLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            Container(
-              margin: const EdgeInsets.all(5),
-              child: const Text(
-                "Selamat Datang",
-                style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 18,
-                    color: Color(0xff256D85)),
-              ),
+            const Text(
+              "Selamat Datang",
+              style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 18,
+                  color: Color(0xff256D85)),
             ),
             Container(
               margin: const EdgeInsets.all(20),
@@ -137,23 +139,20 @@ class FormLogin extends StatelessWidget {
                             'Password',
                             isObsecure: true,
                           ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: kGreenPrimary),
+                                onPressed: () {
+                                  loginProvider.login(context,
+                                      usernameCtrl.text, passCtrl.text);
+                                },
+                                child: const Text("Masuk")),
+                          )
                         ]))
                   ]),
-            ),
-            const SizedBox(height: 2),
-            Container(
-              margin: const EdgeInsets.all(17),
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: kGreenPrimary),
-                      onPressed: () {
-                        loginProvider.login(
-                            context, usernameCtrl.text, passCtrl.text);
-                      },
-                      child: const Text("Masuk"))),
             ),
           ],
         ));

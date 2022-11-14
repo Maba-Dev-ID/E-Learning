@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/services/storaged.dart';
+import 'package:flutter_application_1/utils/theme.dart';
+import 'package:flutter_application_1/widget/modal_foto_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -112,12 +115,18 @@ class MapelProvider extends ChangeNotifier {
         await http.get(url, headers: {"Authorization": "Bearer $token"});
     var result = jsonDecode(response.body);
     if (result['status'] == 1) {
-      return result['data'];
+      return result;
     } else {
       print(result);
       Navigator.pop(context);
       // throw 'error get materi user';
     }
+  }
+
+  getfotoOtorisasi(url, context) async {
+    url = await apiEndPoint['FOTO_ABSENSI'] + url;
+    showDialog(
+        context: context, builder: (context) => ModalFotoWidget(url: url));
   }
 
   getFileFromUrl(String url) async {
