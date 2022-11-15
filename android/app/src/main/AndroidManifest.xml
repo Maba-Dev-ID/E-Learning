@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.elearnin_itg_1">
+    package="com.mabadev.elearning">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="E-Learning"
