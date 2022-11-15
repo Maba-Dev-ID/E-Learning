@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:e_learning/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_file/open_file.dart';
@@ -77,10 +78,13 @@ class MapelProvider extends ChangeNotifier {
     }
   }
 
-  getTugas() async {
+  getTugas({String? mapelId, String? status}) async {
+    mapelId = mapelId ?? 'all';
+    status = status ?? 'all';
     var token = await storage.read('token');
-    Uri url = Uri.parse(apiEndPoint['TUGASALL']);
-
+    Uri url = Uri.parse(
+        apiEndPoint['TUGASALL'] + "?mapel_id=$mapelId&is_done=$status");
+    print(url);
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
     var result = jsonDecode(response.body)['data'];
@@ -147,28 +151,21 @@ class MapelProvider extends ChangeNotifier {
     }
   }
 
-  getMapel(
-      String? idMapel, String? idRombel, String? isDone, String? pages) async {
+  getMapel(String? idMapel, String? isDone) async {
     var token = await storage.read('token');
-    var rombelId = "rombel_id=${idRombel ?? 'all'}";
     var mapelId = "mapel_id=${idMapel ?? 'all'}";
     var done = "is_done=${isDone ?? 'all'}";
-    var page = "is_done=${pages ?? '1'}";
-    Uri url =
-        Uri.parse("${apiEndPoint['MAPEL']}?$mapelId&$rombelId&$done&$page");
+    Uri url = Uri.parse("${apiEndPoint['MAPEL']}?$mapelId&$done&");
 
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
 
     if (response.statusCode == 200) {
-      List result = (json.decode(response.body));
-      Map<String, String> mapel = <String, String>{};
-
-      for (var element in result) {
-        mapel[element['nama']] = element['mapel_id'];
-      }
-      // print(mapel);
-      return mapel;
+      List result = jsonDecode(response.body);
+      List<Category> category = result.map((e) {
+        return Category.fromJson(e);
+      }).toList();
+      return category;
     } else {
       throw 'error get materi user';
     }
