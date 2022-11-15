@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/providers/user_provider.dart';
-import 'package:flutter_application_1/utils/theme.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/user_provider.dart';
+import '../utils/theme.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -76,7 +77,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15, top: 10),
+      margin: const EdgeInsets.only(bottom: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [

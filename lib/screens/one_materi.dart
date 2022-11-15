@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_application_1/helper/helper_materi.dart';
-import 'package:flutter_application_1/providers/mapel_provider.dart';
-import 'package:flutter_application_1/utils/theme.dart';
-import 'package:flutter_application_1/widget/modal_foto_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../helper/helper_materi.dart';
+import '../providers/mapel_provider.dart';
+import '../utils/theme.dart';
 
 class OneMateriScreen extends StatefulWidget {
   final String id;
