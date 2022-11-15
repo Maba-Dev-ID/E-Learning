@@ -29,17 +29,19 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var loginProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
-      body: ListView(
+      body: Stack(
+        // shrinkWrap: true,
         // padding: EdgeInsets.all(10),
         children: [
           SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: Image.asset(
-                "assets/images/bg.png",
+                "assets/images/bglogin.png",
                 fit: BoxFit.cover,
               )),
           ListView(
+            shrinkWrap: true,
             children: [
               Container(
                 margin: EdgeInsets.symmetric(
@@ -85,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             Container(
+                              
                               margin: const EdgeInsets.all(20),
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
