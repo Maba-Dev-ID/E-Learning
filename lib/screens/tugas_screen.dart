@@ -14,9 +14,9 @@ class TugasScreen extends StatefulWidget {
 class _TugasScreenState extends State<TugasScreen> {
   String? chosenValue;
   String? id;
-  String? rombel;
   String? done;
-  String? page;
+  bool isShowCategory = false;
+  Map? jadwal = {"id": [], "nama": []};
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +42,8 @@ class _TugasScreenState extends State<TugasScreen> {
           child: ListView(
             children: [
               FutureBuilder(
-                future: tugasAll.getMapel(id, rombel, done, page),
+                future: tugasAll.getMapel(id, done),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  // print(snapshot.data);
                   if (!snapshot.hasData) {
                     return Container(
                       margin: const EdgeInsets.only(
@@ -54,6 +53,13 @@ class _TugasScreenState extends State<TugasScreen> {
                       decoration: const BoxDecoration(color: Color(0xffeeeeee)),
                     );
                   } else {
+                    List<DropdownMenuItem<String>> items = (snapshot.data)
+                        .map<DropdownMenuItem<String>>((item) =>
+                            DropdownMenuItem<String>(
+                                value: item.id,
+                                child: Text(item.category,
+                                    style: TextStyle(color: kGreen))))
+                        .toList();
                     return Container(
                       decoration: BoxDecoration(
                           boxShadow: const [
@@ -69,45 +75,18 @@ class _TugasScreenState extends State<TugasScreen> {
                           left: 10, right: 10, bottom: 10),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
+                          hint: const Text("Pilih Mata Kuliah"),
                           menuMaxHeight: 250,
+                          isExpanded: true,
                           borderRadius: BorderRadius.circular(15),
-                          focusColor: Colors.white,
                           value: chosenValue,
                           style: const TextStyle(color: Colors.white),
                           iconEnabledColor: Colors.black,
-                          isExpanded: true,
-                          selectedItemBuilder: (BuildContext context) {
-                            return snapshot.data.keys.map<Widget>((item) {
-                              return Container(
-                                alignment: Alignment.centerLeft,
-                                constraints:
-                                    const BoxConstraints(minWidth: 100),
-                                child: Text(item,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold)),
-                              );
-                            }).toList();
-                          },
-                          items: snapshot.data.values
-                              .map<DropdownMenuItem<String>>((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item,
-                                  style: TextStyle(color: Colors.black)),
-                            );
-                          }).toList(),
-                          hint: Text(
-                            chosenValue ?? "Kelas yang dipilih",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
+                          items: items,
                           onChanged: (value) {
                             setState(() {
-                              print(value);
-                              id = value;
+                              isShowCategory = true;
+                              chosenValue = value;
                             });
                           },
                         ),
@@ -116,69 +95,88 @@ class _TugasScreenState extends State<TugasScreen> {
                   }
                 },
               ),
-              FutureBuilder(
-                future: tugasAll.getTugas(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  var d = snapshot.data;
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                        children: List.generate(
-                            snapshot.data.length,
-                            (index) => Card(
-                                  color: kGreenPrimary,
-                                  margin: const EdgeInsets.only(
-                                      bottom: 6, right: 10, left: 5, top: 6),
-                                  elevation: 4,
-                                  child: ListTile(
-                                    // dense: true,
-                                    minVerticalPadding: 20,
-                                    title: Text(
-                                        d[index]['detail']['mapel']['nama'],
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w700)),
-                                    subtitle: Text(d[index]['detail']['judul'],
-                                        style: const TextStyle(
-                                            color: Colors.white)),
-                                    trailing: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                            splitTanggal(d[index]['detail']
-                                                ['tanggal_pengumpulan']),
-                                            style: const TextStyle(
-                                                color: Colors.white)),
-                                        Text(
-                                            splitWaktu(d[index]['detail']
-                                                ['tanggal_pengumpulan']),
-                                            style: const TextStyle(
-                                                color: Colors.white)),
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          height: 5,
-                                          width: 30,
-                                          color: changeColor(
-                                              d[index]['is_done'],
-                                              d[index]['tanggal_upload'],
-                                              d[index]['detail']
-                                                  ['tanggal_pengumpulan']),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ))),
-                  );
-                },
+              if (isShowCategory)
+                TugasAll(
+                  tugasAll: tugasAll,
+                  mapelId: chosenValue,
+                ),
+              Visibility(
+                visible: !isShowCategory,
+                child: TugasAll(
+                  tugasAll: tugasAll,
+                ),
               ),
             ],
           ),
         ));
+  }
+}
+
+class TugasAll extends StatelessWidget {
+  TugasAll({
+    Key? key,
+    this.mapelId,
+    this.isDone,
+    required this.tugasAll,
+  }) : super(key: key);
+
+  String? mapelId;
+  String? isDone;
+  final MapelProvider tugasAll;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: tugasAll.getTugas(mapelId: mapelId, status: isDone),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        var d = snapshot.data;
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+              children: List.generate(
+                  snapshot.data.length,
+                  (index) => Card(
+                        color: kGreenPrimary,
+                        margin: const EdgeInsets.only(
+                            bottom: 6, right: 10, left: 5, top: 6),
+                        elevation: 4,
+                        child: ListTile(
+                          // dense: true,
+                          minVerticalPadding: 20,
+                          title: Text(d[index]['detail']['mapel']['nama'],
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700)),
+                          subtitle: Text(d[index]['detail']['judul'],
+                              style: const TextStyle(color: Colors.white)),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                  splitTanggal(d[index]['detail']
+                                      ['tanggal_pengumpulan']),
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 11)),
+                              Text(
+                                  splitWaktu(d[index]['detail']
+                                      ['tanggal_pengumpulan']),
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 11)),
+                              changeIcon(
+                                  d[index]['is_done'],
+                                  d[index]['tanggal_upload'],
+                                  d[index]['detail']['tanggal_pengumpulan']),
+                            ],
+                          ),
+                        ),
+                      ))),
+        );
+      },
+    );
   }
 }
