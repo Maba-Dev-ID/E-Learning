@@ -1,4 +1,7 @@
 {
   "cmake.sourceDirectory": "${workspaceFolder}/linux",
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "cSpell.words": [
+    "Tugas"
+  ]
 }

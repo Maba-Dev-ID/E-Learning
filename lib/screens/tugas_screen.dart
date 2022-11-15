@@ -1,3 +1,4 @@
+import 'package:e_learning/screens/one_tugas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../helper/helper_tugas.dart';
@@ -127,10 +128,20 @@ class _TugasScreenState extends State<TugasScreen> {
                   var d = snapshot.data;
                   return SingleChildScrollView(
                     scrollDirection: Axis.vertical,
+                    
                     child: Column(
                         children: List.generate(
                             snapshot.data.length,
-                            (index) => Card(
+                            (index) => GestureDetector(
+                        onTap: () {
+                          print(d[index]['id']);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OneTugas(
+                                      d[index]['id'].toString())));
+                        },
+                        child: Card(
                                   color: kGreenPrimary,
                                   margin: const EdgeInsets.only(
                                       bottom: 6, right: 10, left: 5, top: 6),
@@ -174,7 +185,7 @@ class _TugasScreenState extends State<TugasScreen> {
                                     ),
                                   ),
                                 ))),
-                  );
+                  ));
                 },
               ),
             ],
