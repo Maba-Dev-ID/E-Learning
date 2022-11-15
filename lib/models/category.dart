@@ -10,3 +10,16 @@ class Category {
     );
   }
 }
+
+class Status {
+  String key;
+  String value;
+
+  Status({required this.key, required this.value});
+  factory Status.fromJson(Map<String, dynamic> json) {
+    return Status(
+      key: json['key'],
+      value: json['value']!,
+    );
+  }
+}

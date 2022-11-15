@@ -84,7 +84,6 @@ class MapelProvider extends ChangeNotifier {
     var token = await storage.read('token');
     Uri url = Uri.parse(
         apiEndPoint['TUGASALL'] + "?mapel_id=$mapelId&is_done=$status");
-
     print(url);
     var response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
