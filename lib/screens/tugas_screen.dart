@@ -22,27 +22,16 @@ class _TugasScreenState extends State<TugasScreen> {
   String? chosenValue;
   String? chosenStatus;
   bool isShowCategory = false;
+  bool isVisible = false;
+  var searchCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var tugasAll = Provider.of<MapelProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: kWhiteBg,
-        appBar: AppBar(
-          title: const Text("Tugas",
-              style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xff06283D))),
-          backgroundColor: kWhiteBg,
-          foregroundColor: Colors.black,
-          toolbarHeight: 110,
-          elevation: 0,
-          centerTitle: true,
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
-          ],
-        ),
+        appBar: appbarTugas(),
+        // floatingActionButton: ,
         body: SafeArea(
           child: ListView(
             children: [
@@ -70,7 +59,8 @@ class _TugasScreenState extends State<TugasScreen> {
           List<DropdownMenuItem<String>> items = (snapshot.data)
               .map<DropdownMenuItem<String>>((item) => DropdownMenuItem<String>(
                   value: item.id,
-                  child: Text(item.category, style: TextStyle(color: kGreen))))
+                  child: Text(item.category,
+                      style: const TextStyle(color: kGreen))))
               .toList();
           return Container(
             decoration: BoxDecoration(boxShadow: const [
@@ -145,6 +135,28 @@ class _TugasScreenState extends State<TugasScreen> {
       ),
     );
   }
+
+  PreferredSizeWidget appbarTugas() {
+    return AppBar(
+      title: const Text("Tugas",
+          style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              color: Color(0xff06283D))),
+      backgroundColor: kWhiteBg,
+      foregroundColor: Colors.black,
+      toolbarHeight: 110,
+      elevation: 0,
+      centerTitle: true,
+      actions: [
+        IconButton(
+            onPressed: () {
+              print("PINDAH HALAMAN KE SEARCH SCREEN -AKTIF-");
+            },
+            icon: const Icon(Icons.search))
+      ],
+    );
+  }
 }
 
 class TugasAll extends StatelessWidget {
@@ -184,38 +196,65 @@ class TugasAll extends StatelessWidget {
             child: Column(
                 children: List.generate(
                     snapshot.data.length,
-                    (index) => Card(
-                          color: kGreenPrimary,
-                          margin: const EdgeInsets.only(
-                              bottom: 6, right: 10, left: 5, top: 6),
-                          elevation: 4,
-                          child: ListTile(
-                            // dense: true,
-                            minVerticalPadding: 20,
-                            title: Text(d[index]['detail']['mapel']['nama'],
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700)),
-                            subtitle: Text(d[index]['detail']['judul'],
-                                style: const TextStyle(color: Colors.white)),
-                            trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                    splitTanggal(d[index]['detail']
-                                        ['tanggal_pengumpulan']),
+                    (index) => GestureDetector(
+                          onLongPress: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    aboutTugas(d[index], context));
+                          },
+                          child: Card(
+                            color: kGreenPrimary,
+                            margin: const EdgeInsets.only(
+                                bottom: 6, right: 10, left: 5, top: 6),
+                            elevation: 4,
+                            child: ListTile(
+                              minVerticalPadding: 25,
+                              title: RichText(
+                                  text: TextSpan(children: [
+                                TextSpan(
+                                  text:
+                                      "${d[index]['detail']['mapel']['nama']} ",
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                TextSpan(
+                                    text: d[index]['nilai'] != null
+                                        ? "-  Di nilai  -"
+                                        : "",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 11)),
-                                Text(
-                                    splitWaktu(d[index]['detail']
-                                        ['tanggal_pengumpulan']),
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 11)),
-                                changeIcon(
-                                    d[index]['is_done'],
-                                    d[index]['tanggal_upload'],
-                                    d[index]['detail']['tanggal_pengumpulan']),
-                              ],
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        backgroundColor: Color(0xff8cff8a))),
+                              ])),
+                              subtitle: Text(d[index]['detail']['judul'],
+                                  style: const TextStyle(
+                                      fontSize: 16, color: Colors.white)),
+                              trailing: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      splitTanggal(d[index]['detail']
+                                          ['tanggal_pengumpulan']),
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 11)),
+                                  Text(
+                                      splitWaktu(d[index]['detail']
+                                          ['tanggal_pengumpulan']),
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 11)),
+                                  changeIcon(
+                                      d[index]['is_done'],
+                                      d[index]['tanggal_upload'],
+                                      d[index]['detail']
+                                          ['tanggal_pengumpulan']),
+                                ],
+                              ),
                             ),
                           ),
                         ))),
@@ -233,6 +272,43 @@ class TugasAll extends StatelessWidget {
           );
         }
       },
+    );
+  }
+
+  Widget aboutTugas(data, context) {
+    return Center(
+      child: Container(
+        height: 300,
+        width: 300,
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+            color: kWhiteBg, borderRadius: BorderRadius.circular(15)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: kGreenPrimary,
+                ),
+                child: Text(data['detail']['mapel']['nama'],
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+            Text(data['detail']['judul'],
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text("Nilai : ${data['nilai'] ?? '- Belum di nilai -'}"),
+            Text("Pesan : ${data['pesan'] ?? '- Tidak ada Pesan -'}"),
+          ],
+        ),
+      ),
     );
   }
 }
