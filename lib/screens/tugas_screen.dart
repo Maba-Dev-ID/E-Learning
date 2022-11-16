@@ -197,6 +197,9 @@ class TugasAll extends StatelessWidget {
                 children: List.generate(
                     snapshot.data.length,
                     (index) => GestureDetector(
+                          onTap: () {
+                            print(d[index]['id']);
+                          },
                           onLongPress: () {
                             showDialog(
                                 context: context,
