@@ -16,6 +16,12 @@ class MateriScreen extends StatefulWidget {
 class _MateriScreenState extends State<MateriScreen> {
   String? chosenValue;
   String? id;
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
   @override
   Widget build(BuildContext context) {
     var materiAll = Provider.of<MapelProvider>(context, listen: false);
@@ -36,8 +42,16 @@ class _MateriScreenState extends State<MateriScreen> {
             IconButton(onPressed: () {}, icon: const Icon(Icons.search))
           ],
         ),
+        floatingActionButton:FloatingActionButton(
+          elevation: 3,
+          backgroundColor: Colors.white,
+          foregroundColor: kGreenPrimary,
+          onPressed: _scrollToTop,
+          child: const Icon(Icons.arrow_upward),
+        ),
         body: SafeArea(
             child: ListView(
+              controller: _scrollController,
           children: [
             Container(
               decoration: BoxDecoration(boxShadow: const [
@@ -192,7 +206,8 @@ class _MateriScreenState extends State<MateriScreen> {
                                     fontWeight: FontWeight.w700)),
                             subtitle: Text(d[index]['judul'],
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 13)),
+                                  overflow: TextOverflow.ellipsis,
+                                    color: Colors.white, fontSize: 16)),
                             trailing: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
