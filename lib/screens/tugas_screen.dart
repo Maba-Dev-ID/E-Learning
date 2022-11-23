@@ -31,15 +31,13 @@ class _TugasScreenState extends State<TugasScreen> {
         duration: const Duration(milliseconds: 300), curve: Curves.linear);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     var tugasAll = Provider.of<MapelProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: kWhiteBg,
         appBar: appbarTugas(),
-        floatingActionButton:FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
           elevation: 3,
           backgroundColor: Colors.white,
           foregroundColor: kGreenPrimary,
@@ -71,7 +69,8 @@ class _TugasScreenState extends State<TugasScreen> {
         if (!snapshot.hasData) {
           return const LoadingDropdown();
         } else {
-          List<DropdownMenuItem<String>> items = (snapshot.data)
+          var data = snapshot.data;
+          List<DropdownMenuItem<String>> items = data
               .map<DropdownMenuItem<String>>((item) => DropdownMenuItem<String>(
                   value: item.id,
                   child: Text(item.category,
@@ -211,65 +210,122 @@ class TugasAll extends StatelessWidget {
             child: Column(
                 children: List.generate(
                     snapshot.data.length,
-                    (index) => Card(
-                      color: kGreenPrimary,
-                      margin: const EdgeInsets.only(
-                          bottom: 6, right: 10, left: 5, top: 6),
-                      elevation: 4,
-                      child: ListTile(
-                        onTap: ()=>  print(d[index]['id']),
-                        onLongPress: ()=>  showDialog(
-                            context: context,
-                            builder: (context) =>
-                                aboutTugas(d[index], context)),
-                        minVerticalPadding: 25,
-                        title: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text:
-                                "${d[index]['detail']['mapel']['nama']} ",
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
+                    (index) => GestureDetector(
+                        // splashColor : kGreen,
+                          onLongPress: () => showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  aboutTugas(d[index], context)),
+                          child: Card(
+                            color: kGreenPrimary,
+                            margin: const EdgeInsets.only(
+                                bottom: 6, right: 10, left: 5, top: 6),
+                            elevation: 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                ListTile(
+                                  minVerticalPadding: 25,
+                                  title: Text(
+                                    "${d[index]['detail']['mapel']['nama']} ",
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  subtitle: Text(d[index]['detail']['judul'],
+                                      style: const TextStyle(
+                                          fontSize: 16, color: Colors.white)),
+                                  trailing: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          splitTanggal(d[index]['detail']
+                                              ['tanggal_pengumpulan']),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11)),
+                                      Text(
+                                          splitWaktu(d[index]['detail']
+                                              ['tanggal_pengumpulan']),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11)),
+                                      changeIcon(
+                                          d[index]['is_done'],
+                                          d[index]['tanggal_upload'],
+                                          d[index]['detail']
+                                              ['tanggal_pengumpulan']),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [Row(
+                                      children: [
+                                        Container(
+                                          padding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 5,
+                                              vertical: 2),
+                                          decoration: BoxDecoration(
+                                              color:d[index]['nilai'] == null? Colors.grey:Colors.green,
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  10)),
+                                          child: Text( d[index]['nilai'] == null ? " Belum dinilai ":
+                                          " Dinilai ",
+                                            style: TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Visibility(
+                                          visible: d[index]['pesan'] == null ? false:true,
+                                          child: Container(
+                                            padding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 5,
+                                                vertical: 2),
+                                            decoration: BoxDecoration(
+                                                color:Colors.orangeAccent,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    10)),
+                                            child: Text(
+                                            " Pesan ",
+                                              style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                      TextButton(
+                                          onPressed: () {
+                                            print(d[index]['id']);
+                                          },
+                                          child: Text(
+                                            "Detail ->",
+                                            style: TextStyle(
+                                                // fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ))
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                          TextSpan(
-                              text: d[index]['nilai'] != null
-                                  ? "-  Di nilai  -"
-                                  : "",
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  backgroundColor: Color(0xff8cff8a))),
-                        ])),
-                        subtitle: Text(d[index]['detail']['judul'],
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.white)),
-                        trailing: Column(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                                splitTanggal(d[index]['detail']
-                                    ['tanggal_pengumpulan']),
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 11)),
-                            Text(
-                                splitWaktu(d[index]['detail']
-                                    ['tanggal_pengumpulan']),
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 11)),
-                            changeIcon(
-                                d[index]['is_done'],
-                                d[index]['tanggal_upload'],
-                                d[index]['detail']
-                                    ['tanggal_pengumpulan']),
-                          ],
-                        ),
-                      ),
-                    ))),
+                        ))),
           );
         } else {
           return Column(

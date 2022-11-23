@@ -1,3 +1,4 @@
+import 'package:e_learning/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/mapel_provider.dart';
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: kWhiteBg,
+        // backgroundColor: kWhiteBg,
         body: SafeArea(
           child: ListView(
             children: [
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              kelas(mapelProvider),
+              kelas(mapelProvider,context),
             ],
           ),
         ));
@@ -44,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 Widget navbar(BuildContext context, UserProvider userProvider) {
+  var theme = Theme.of(context);
   return FutureBuilder(
     future: userProvider.getProfileUser(),
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -67,7 +69,7 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
               ],
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, "/profile"),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileScreen())),
               child: const CircleAvatar(
                 backgroundColor: Color(0xffEEEEEE),
               ),
@@ -82,14 +84,13 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("${snapshot.data['nama']}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 16)),
+                  style: theme.textTheme.headline3),
               Text(
-                  "${snapshot.data['user']['user_type'] == 'siswa' ? 'Mahasiswa' : snapshot.data['user']['user_type']}")
+                  "${snapshot.data['user']['user_type'] == 'siswa' ? 'Mahasiswa' : snapshot.data['user']['user_type']}", style: theme.textTheme.subtitle1,)
             ],
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/profile'),
+            onTap: () =>  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileScreen(data: snapshot.data,))),
             child: Hero(
               tag: 'avatar',
               child: CircleAvatar(
@@ -106,12 +107,13 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
 }
 
 Widget hero(BuildContext context) {
+  var theme = Theme.of(context);
   return Container(
     margin: const EdgeInsets.only(top: 30, bottom: 20),
     height: 166,
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
-      color: kGreenPrimary,
+      color: theme.primaryColor,
       borderRadius: BorderRadius.circular(20),
     ),
     child: Container(
@@ -122,45 +124,33 @@ Widget hero(BuildContext context) {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text("E-Learning",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: kWhiteBg,
-                    )),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color:theme.primaryColorDark )),
                 Text("Layanan Digitalisasi Sekolah",
-                    style: TextStyle(color: kWhiteBg)),
+                    style: TextStyle(color: theme.primaryColorDark)),
               ],
             ),
-            Container(
-              height: 35,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: kWhiteBg, borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.grey,
+            InkWell(
+              onTap: (){},
+              child: Container(
+                height: 35,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: theme.scaffoldBackgroundColor, borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Icon(
+                        Icons.search,
+                        color: kwhite,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                      child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Silahkan Cari ...",
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                        isDense: true,
-                        isCollapsed: true,
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
-                  ))
-                ],
+                    Expanded(
+                        child: Text("Silahkan Cari ...", style: theme.textTheme.subtitle1))
+                  ],
+                ),
               ),
             )
           ]),
@@ -208,7 +198,8 @@ Widget task(MapelProvider mapelProvider) {
   );
 }
 
-Widget kelas(MapelProvider mapelProvider) {
+Widget kelas(MapelProvider mapelProvider, context) {
+  var theme = Theme.of(context);
   return Container(
     margin: const EdgeInsets.only(top: 30),
     child: Column(
@@ -218,19 +209,17 @@ Widget kelas(MapelProvider mapelProvider) {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Daftar Kelas",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  )),
+              Text("Daftar Kelas",
+                  style: TextStyle(fontSize: 14, color: theme.primaryColorLight)),
               GestureDetector(
                   onTap: () {},
-                  child: const Text('Lihat semua',
-                      style: TextStyle(fontSize: 12))),
+                  child: Text('Lihat semua',
+                      style:  TextStyle(fontSize: 14, color: theme.primaryColorLight))),
             ],
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(left: 20),
+          // padding: const EdgeInsets.only(left: 20),
           height: 200,
           child: FutureBuilder(
             future: mapelProvider.getMataKuliah(),
@@ -249,13 +238,16 @@ Widget kelas(MapelProvider mapelProvider) {
                 child: Row(
                   children: List.generate(
                       snapshot.data.length,
-                      (index) => KelasCard(
-                            namaMatakul: data[index]['kelas_mapel']['mapel']
-                                ['nama'],
-                            hari: data[index]['hari'],
-                            wMulai: data[index]['jam_mulai'],
-                            wSelesai: data[index]['jam_selesai'],
-                          )),
+                      (index) => Container(
+                        margin: index > 0 ? EdgeInsets.only(left: 5):EdgeInsets.only(left: 20),
+                        child: KelasCard(
+                              namaMatakul: data[index]['kelas_mapel']['mapel']
+                                  ['nama'],
+                              hari: data[index]['hari'],
+                              wMulai: data[index]['jam_mulai'],
+                              wSelesai: data[index]['jam_selesai'],
+                            ),
+                      )),
                 ),
               );
             },
