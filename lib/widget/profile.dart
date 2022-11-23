@@ -10,13 +10,14 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 35),
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1.5, color: kWhiteBg))),
       child: ListTile(
-        leading: Icon(icon, color: kWhiteBg,),
-        title: Text(title!, style: const TextStyle(color: kWhiteBg, fontWeight: FontWeight.bold)),
-        subtitle: Text(subtitle!, style: const TextStyle(color: kWhiteBg)),
+        leading: Icon(icon, color: theme.primaryColorDark,),
+        title: Text(title!, style: TextStyle(fontSize:15,fontWeight: FontWeight.bold, color: theme.primaryColorDark)),
+        subtitle: Text(subtitle!, style: TextStyle(color: theme.primaryColorDark)),
       ),
     );
   }
@@ -27,80 +28,56 @@ class SkeltonProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const CircleAvatar(
-          radius: 80,
-          backgroundColor: Color(0xffeeeeee),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundColor: Color(0xffeeeeee),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  color: Color(0xffeeeeee),
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                ),
+                Container(
+                  color: Color(0xffeeeeee),
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                )
+              ],
+            ),
+          ],
         ),
         const SizedBox(
-          height: 5,
+          height: 45,
         ),
         Container(
-          height: 20,
-          width: 100,
+          height: 80,
           decoration: BoxDecoration(
-            color: const Color(0xffeeeeee),
             borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          height: 10,
-          width: 80,
-          decoration: BoxDecoration(
             color: const Color(0xffeeeeee),
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: const Color(0xff256D85),
           ),
           margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
           padding: const EdgeInsets.all(15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                height: 20,
-                width: 70,
-                decoration: BoxDecoration(
-                  color: const Color(0xffeeeeee),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              Container(
-                height: 20,
-                width: 70,
-                decoration: BoxDecoration(
-                  color: const Color(0xffeeeeee),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ],
-          ),
         ),
         Column(
-          children: List.generate(
-            4,
-            (index) => Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              height: 35,
-              width: 150,
-              decoration: BoxDecoration(
-                color: const Color(0xffeeeeee),
-                borderRadius: BorderRadius.circular(10),
+          children: [
+            ListTile(
+              leading: CircleAvatar(backgroundColor: Color(0xffeeeeee),
               ),
-            ),
-          ),
+              title: Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Color(0xffeeeeee)),
+                height: 10, width: 100,),
+            )
+          ],
         )
       ],
     );
-    ;
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:e_learning/providers/theme_providers.dart';
+import 'package:e_learning/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +10,6 @@ import 'providers/user_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/materi_screen.dart';
-import 'screens/profile_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/tugas_screen.dart';
 
@@ -17,6 +18,7 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => UserProvider()),
     ChangeNotifierProvider(create: (_) => MapelProvider()),
+    ChangeNotifierProvider(create: (_) => ThemeProvider()),
   ], child: const LMSApps()));
 }
 
@@ -37,9 +39,11 @@ class LMSApps extends StatefulWidget {
 }
 
 class _LMSAppsState extends State<LMSApps> {
+  final ThemeProvider theme = ThemeProvider();
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, value, child) {
+      final theme = Provider.of<ThemeProvider>(context);
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'LMS Mobile Apps',
@@ -48,11 +52,12 @@ class _LMSAppsState extends State<LMSApps> {
           '/': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
-          '/profile': (context) => const ProfileScreen(),
           '/tugas': (context) => const TugasScreen(),
           '/materi': (context) => const MateriScreen(),
         },
-        theme: ThemeData(fontFamily: "Poppins"),
+        themeMode: theme.themeMode,
+        darkTheme: darkTheme,
+        theme: lightTheme,
       );
     });
   }

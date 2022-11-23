@@ -33,7 +33,9 @@ class KelasCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Card(
+      color: theme.primaryColorDark,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
         width: 170,
@@ -54,15 +56,15 @@ class KelasCard extends StatelessWidget {
               child: Text(
                 "$namaMatakul",
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold, color: theme.primaryColorLight),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.access_time_rounded),
+                Icon(Icons.access_time_rounded, color: theme.primaryColorLight,),
                 Text(setJadwal(hari, wMulai, wSelesai),
-                    style: const TextStyle(fontSize: 12))
+                    style: TextStyle(fontSize: 12,color: theme.primaryColorLight))
               ],
             )
           ],

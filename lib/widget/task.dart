@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 class Task extends StatelessWidget {
   final String? total;
   final String? taskName;
@@ -11,7 +8,7 @@ class Task extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: color ?? Colors.white,
+      color: color ?? Theme.of(context).primaryColorDark,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: SizedBox(
         width: 100,
@@ -21,8 +18,8 @@ class Task extends StatelessWidget {
           children: [
             Text(total ?? '',
                 style:
-                    const TextStyle(fontSize: 32, fontWeight: FontWeight.w700)),
-            Text(taskName ?? ''),
+                    TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColorLight)),
+            Text(taskName ?? '', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColorLight),),
           ],
         ),
       ),

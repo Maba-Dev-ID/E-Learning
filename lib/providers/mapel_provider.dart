@@ -161,7 +161,9 @@ class MapelProvider extends ChangeNotifier {
         await http.get(url, headers: {"Authorization": "Bearer $token"});
 
     if (response.statusCode == 200) {
-      List result = jsonDecode(response.body);
+      List result = (jsonDecode(response.body));
+      result.insert(0,{"mapel_id" : "all","nama" : "semua"});
+      print(result);
       List<Category> category = result.map((e) {
         return Category.fromJson(e);
       }).toList();

@@ -46,18 +46,22 @@ class UserProvider extends ChangeNotifier {
   }
 
   logout(context){
+    var theme = Theme.of(context);
     showDialog(context: context, builder: (context)=> AlertDialog(
-      title: Text("Yakin Keluar ?", style: TextStyle(fontWeight: FontWeight.bold, color: kGreen),),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      title: Text("Yakin Keluar ?", style: theme.textTheme.headline3),
       actions: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: kGreen
+              foregroundColor: theme.primaryColorLight
             ),
-            onPressed: (){}, child: Text("Tidak")),
+            onPressed: (){
+              Navigator.pop(context);
+            }, child: Text("Tidak",style: theme.textTheme.headline3,)),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: kGreenPrimary
+              backgroundColor: theme.primaryColor
             ),
             onPressed: (){
           showDialog(context: context, builder: (context)=> loading());
@@ -65,7 +69,7 @@ class UserProvider extends ChangeNotifier {
             storage.deleteAll();
             Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
           });
-        }, child: Text("Ya")),
+        }, child: Text("Ya",style: theme.textTheme.headline3,)),
 
       ],
     ));
