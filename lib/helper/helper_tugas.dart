@@ -8,15 +8,17 @@ changeIcon(isDone, tglUpload, deadline) {
       return Icon(
         Icons.av_timer,
         color: Colors.yellow,
+        size: 20,
       );
     }
   } else if (isDone == "n") {
     return Icon(
       Icons.close_rounded,
       color: Colors.red,
+      size: 20,
     );
   }
-  return Icon(Icons.check_circle_outline_outlined, color: Colors.lightGreen);
+  return Icon(Icons.check_circle_outline_outlined, color: Colors.lightGreen,size: 20,);
 }
 
 splitTanggal(tanggal) {

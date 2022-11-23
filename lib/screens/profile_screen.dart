@@ -1,3 +1,4 @@
+import 'package:e_learning/providers/theme_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
@@ -5,7 +6,8 @@ import '../utils/theme.dart';
 import '../widget/profile.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  var data;
+  ProfileScreen({Key? key, this.data}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -17,21 +19,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     var userProvider = Provider.of<UserProvider>(context, listen: false);
-
     return Scaffold(
-      backgroundColor: kWhiteBg,
       appBar: appBarProfile(context),
-      endDrawer: drawerProfile(userProvider),
+      endDrawer: drawerProfile(userProvider, themeProvider),
       body: Stack(children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height / 1.6,
+              height: MediaQuery.of(context).size.height / 1.65,
               width: double.infinity,
-              decoration: const BoxDecoration(
-                  color: kGreenPrimary,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -39,29 +40,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-        ListView(children: [
-          profile(userProvider),
-        ]),
+        SingleChildScrollView(child: profile(widget.data, context)),
       ]),
     );
   }
 
-  Drawer drawerProfile(userProvider) {
+  Drawer drawerProfile(UserProvider userProvider,ThemeProvider themeProvider) {
+    var theme = Theme.of(context);
     return Drawer(
-      backgroundColor: Colors.white.withOpacity(0.9),
+      backgroundColor: theme.scaffoldBackgroundColor,
       width: MediaQuery.of(context).size.width / 1.5,
       child: Column(
         children: [
-          const DrawerHeader(
+          DrawerHeader(
               padding: EdgeInsets.only(top: 40),
               child: ListTile(
                 title: Text(
                   "E-Learning",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: theme.textTheme.headline1,
                 ),
                 subtitle: Text(
                   "Layanan Digitalisasi Sekolah",
-                  style: TextStyle(fontSize: 12),
+                  style: theme.textTheme.subtitle1,
                 ),
               )),
           ListTile(
@@ -69,16 +69,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Icons.lightbulb_outline,
               color: kGreenPrimary,
             ),
-            title: const Text("Dark Mode"),
+            title:  Text("Dark Mode", style: theme.textTheme.subtitle1,),
             trailing: IconButton(
               onPressed: () {
                 setState(() {
+                  themeProvider.changeTheme(
+                    isDark ? "light" : "dark"
+                  );
                   isDark = !isDark;
                 });
               },
               icon: Icon(
                 isDark ? Icons.toggle_on_rounded : Icons.toggle_off_outlined,
                 size: 35,
+                color: theme.primaryColor,
               ),
             ),
           ),
@@ -87,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Icons.volume_mute_outlined,
                 color: kGreenPrimary,
               ),
-              title: const Text("Mute Notifikasi"),
+              title:  Text("Mute Notifikasi", style: theme.textTheme.subtitle1,),
               trailing: IconButton(
                 onPressed: () {
                   setState(() {
@@ -97,41 +101,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: Icon(
                   isMute ? Icons.toggle_on_rounded : Icons.toggle_off_outlined,
                   size: 35,
+                  color: theme.primaryColor,
                 ),
               )),
-          const ListTile(
-            leading: Icon(
+          ListTile(
+            leading: const Icon(
               Icons.layers,
               color: kGreenPrimary,
             ),
-            title: Text("Versi 1.0.0"),
+            title: Text("Versi 1.0.0",style: theme.textTheme.subtitle1),
           ),
           ListTile(
             onTap: () => showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
+                  backgroundColor: theme.scaffoldBackgroundColor,
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text("E-Learning", style: TextStyle( fontWeight: FontWeight.bold),),
-                          Text("Layanan Digitalisasi Sekolah", style: TextStyle(fontSize: 12),),
+                        children:  [
+                          Text(
+                            "E-Learning",
+                            style: theme.textTheme.headline2,
+                          ),
+                          Text(
+                            "Layanan Digitalisasi Sekolah",
+                            style: theme.textTheme.subtitle1,
+                          ),
                           // Divider(height: 1,color: kGreenPrimary,),
                         ],
                       ),
-                      content: const Text(
+                      content: Text(
                         "E-Learning. Aplikasi berbasis Mobile Apps yang mendukung akan produktivitas dalam pekerjaan diperkuliahan.",
+                        style: theme.textTheme.subtitle1,
                       ),
-                  actions: [
-                    TextButton(onPressed: (){
-                      Navigator.pop(context);
-                    }, child: const Text("Tutup", style: TextStyle(color: kGreenPrimary),))
-                  ],
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Tutup",
+                              style: TextStyle(color: kGreenPrimary),
+                            ))
+                      ],
                     )),
             leading: const Icon(
               Icons.info_outline,
               color: kGreenPrimary,
             ),
-            title: const Text("About"),
+            title:  Text("About",style: theme.textTheme.subtitle1),
           ),
           ListTile(
             onTap: () {
@@ -153,9 +171,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 PreferredSizeWidget appBarProfile(BuildContext context) {
+  var theme = Theme.of(context);
   return AppBar(
-      backgroundColor: kWhiteBg,
-      foregroundColor: Colors.black,
+      backgroundColor: theme.scaffoldBackgroundColor,
+      foregroundColor: theme.primaryColor,
       toolbarHeight: 110,
       elevation: 0,
       centerTitle: true,
@@ -168,106 +187,98 @@ PreferredSizeWidget appBarProfile(BuildContext context) {
           ),
         ),
       ],
-      title: const Text(
+      title: Text(
         'Profile',
-        style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w800,
-            color: Color(0xff06283D)),
+        style: theme.textTheme.headline1,
       ));
 }
 
-Widget profile(UserProvider userProvider) {
-  return FutureBuilder(
-    future: userProvider.getProfileUser(),
-    builder: (BuildContext context, AsyncSnapshot snapshot) {
-      if (!snapshot.hasData) {
-        return const SkeltonProfile();
-      }
-      var d = snapshot.data;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: NetworkImage(
-                    "https://elearning.itg.ac.id/upload/avatar/${d['avatar']}"),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(d['nama'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 16)),
-                  Text(
-                      d['user']['user_type'] == 'siswa'
-                          ? "Mahasiswa"
-                          : d['user']['user_type'],
-                      style: const TextStyle(
-                          fontSize: 12, color: Color(0xff06283D))),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 45,
-          ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: kWhiteBg,
-            ),
-            margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-            padding: const EdgeInsets.all(15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+Widget profile(d, context) {
+  var theme = Theme.of(context);
+  return d == null
+      ? const Center(child: CircularProgressIndicator())
+      : Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CardProfile(
-                  title: "NIM",
-                  value: d["nim"],
+                Hero(
+                  tag: "avatar",
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(
+                        "https://elearning.itg.ac.id/upload/avatar/${d['avatar']}"),
+                  ),
                 ),
-                CardProfile(
-                  title: "Semester",
-                  value: d["tingkat"]['nama'],
-                ),
-                CardProfile(
-                  title: "Kelas",
-                  value: d["kelas"][0]['nama'],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(d['nama'],
+                        style: theme.textTheme.headline3),
+                    Text(
+                        d['user']['user_type'] == 'siswa'
+                            ? "Mahasiswa"
+                            : d['user']['user_type'],
+                        style: theme.textTheme.subtitle1)
+                  ],
                 ),
               ],
             ),
-          ),
-          Column(
-            children: [
-              Profile(
-                icon: Icons.email_outlined,
-                title: "Email",
-                subtitle: d['email'],
+            const SizedBox(
+              height: 45,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: theme.primaryColorDark,
               ),
-              Profile(
-                icon: Icons.bookmarks_sharp,
-                title: "Program Studi",
-                subtitle: d['email'],
+              margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CardProfile(
+                    title: "NIM",
+                    value: d["nim"],
+                  ),
+                  CardProfile(
+                    title: "Semester",
+                    value: d["tingkat"]['nama'],
+                  ),
+                  CardProfile(
+                    title: "Kelas",
+                    value: d["kelas"][0]['nama'],
+                  ),
+                ],
               ),
-              Profile(
-                icon: Icons.phone_android,
-                title: "No Telepon",
-                subtitle: d['no_hp'],
-              ),
-              Profile(
-                icon: Icons.calendar_month_outlined,
-                title: "Tempat, Tanggal Lahir",
-                subtitle: "${d['tempat_lahir']}, ${d['tanggal_lahir']}",
-              ),
-            ],
-          )
-        ],
-      );
-    },
-  );
+            ),
+            Column(
+              children: [
+                Profile(
+                  icon: Icons.email_outlined,
+                  title: "Email",
+                  subtitle: d['email'],
+                ),
+                Profile(
+                  icon: Icons.bookmarks_sharp,
+                  title: "Program Studi",
+                  subtitle: d['email'],
+                ),
+                Profile(
+                  icon: Icons.phone_android,
+                  title: "No Telepon",
+                  subtitle: d['no_hp'],
+                ),
+                Profile(
+                  icon: Icons.calendar_month_outlined,
+                  title: "Tempat, Tanggal Lahir",
+                  subtitle: "${d['tempat_lahir']}, ${d['tanggal_lahir']}",
+                ),
+              ],
+            )
+          ],
+        );
 }
 
 class CardProfile extends StatelessWidget {
