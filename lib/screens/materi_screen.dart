@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/mapel_provider.dart';
 import '../utils/theme.dart';
@@ -149,7 +150,17 @@ class _MateriScreenState extends State<MateriScreen> {
               future: materiAll.getMateri(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 4,
+                      ),
+                      Center(
+                        child: LoadingAnimationWidget.staggeredDotsWave(
+                            color: kGreenPrimary, size: 40),
+                      ),
+                    ],
+                  );
                 }
                 var d = snapshot.data;
                 return SingleChildScrollView(
@@ -172,12 +183,13 @@ class _MateriScreenState extends State<MateriScreen> {
                               bottom: 6.0, right: 10.0, left: 5.0, top: 6.0),
                           elevation: 4,
                           child: ListTile(
-                            minVerticalPadding: 15,
+                            minVerticalPadding: 25,
                             title: Text(d[index]['mapel']['nama'],
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 18,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14)),
+                                    fontWeight: FontWeight.w700)),
                             subtitle: Text(d[index]['judul'],
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 13)),

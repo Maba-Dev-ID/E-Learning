@@ -123,7 +123,7 @@ Widget hero(BuildContext context) {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Text("ELearning ITG",
+                Text("E-Learning",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
