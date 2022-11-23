@@ -45,6 +45,32 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  logout(context){
+    showDialog(context: context, builder: (context)=> AlertDialog(
+      title: Text("Yakin Keluar ?", style: TextStyle(fontWeight: FontWeight.bold, color: kGreen),),
+      actions: [
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: kGreen
+            ),
+            onPressed: (){}, child: Text("Tidak")),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kGreenPrimary
+            ),
+            onPressed: (){
+          showDialog(context: context, builder: (context)=> loading());
+          Timer(const Duration(seconds: 2), () {
+            storage.deleteAll();
+            Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
+          });
+        }, child: Text("Ya")),
+
+      ],
+    ));
+  }
+
   Future<Map<String, dynamic>> getProfileUser() async {
     var token = await storage.read('token');
     Uri url = Uri.parse(apiEndPoint['PROFILE']);

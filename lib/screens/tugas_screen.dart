@@ -24,6 +24,14 @@ class _TugasScreenState extends State<TugasScreen> {
   bool isShowCategory = false;
   bool isVisible = false;
   var searchCtrl = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +39,16 @@ class _TugasScreenState extends State<TugasScreen> {
     return Scaffold(
         backgroundColor: kWhiteBg,
         appBar: appbarTugas(),
-        // floatingActionButton: ,
+        floatingActionButton:FloatingActionButton(
+          elevation: 3,
+          backgroundColor: Colors.white,
+          foregroundColor: kGreenPrimary,
+          onPressed: _scrollToTop,
+          child: const Icon(Icons.arrow_upward),
+        ),
         body: SafeArea(
           child: ListView(
+            controller: _scrollController,
             children: [
               dropDownType(tugasAll),
               dropDownStatus(),
@@ -196,71 +211,65 @@ class TugasAll extends StatelessWidget {
             child: Column(
                 children: List.generate(
                     snapshot.data.length,
-                    (index) => GestureDetector(
-                          onTap: () {
-                            print(d[index]['id']);
-                          },
-                          onLongPress: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    aboutTugas(d[index], context));
-                          },
-                          child: Card(
-                            color: kGreenPrimary,
-                            margin: const EdgeInsets.only(
-                                bottom: 6, right: 10, left: 5, top: 6),
-                            elevation: 4,
-                            child: ListTile(
-                              minVerticalPadding: 25,
-                              title: RichText(
-                                  text: TextSpan(children: [
-                                TextSpan(
-                                  text:
-                                      "${d[index]['detail']['mapel']['nama']} ",
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                TextSpan(
-                                    text: d[index]['nilai'] != null
-                                        ? "-  Di nilai  -"
-                                        : "",
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        backgroundColor: Color(0xff8cff8a))),
-                              ])),
-                              subtitle: Text(d[index]['detail']['judul'],
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.white)),
-                              trailing: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      splitTanggal(d[index]['detail']
-                                          ['tanggal_pengumpulan']),
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 11)),
-                                  Text(
-                                      splitWaktu(d[index]['detail']
-                                          ['tanggal_pengumpulan']),
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 11)),
-                                  changeIcon(
-                                      d[index]['is_done'],
-                                      d[index]['tanggal_upload'],
-                                      d[index]['detail']
-                                          ['tanggal_pengumpulan']),
-                                ],
-                              ),
-                            ),
+                    (index) => Card(
+                      color: kGreenPrimary,
+                      margin: const EdgeInsets.only(
+                          bottom: 6, right: 10, left: 5, top: 6),
+                      elevation: 4,
+                      child: ListTile(
+                        onTap: ()=>  print(d[index]['id']),
+                        onLongPress: ()=>  showDialog(
+                            context: context,
+                            builder: (context) =>
+                                aboutTugas(d[index], context)),
+                        minVerticalPadding: 25,
+                        title: RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                            text:
+                                "${d[index]['detail']['mapel']['nama']} ",
+                            style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700),
                           ),
-                        ))),
+                          TextSpan(
+                              text: d[index]['nilai'] != null
+                                  ? "-  Di nilai  -"
+                                  : "",
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  backgroundColor: Color(0xff8cff8a))),
+                        ])),
+                        subtitle: Text(d[index]['detail']['judul'],
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.white)),
+                        trailing: Column(
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                splitTanggal(d[index]['detail']
+                                    ['tanggal_pengumpulan']),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 11)),
+                            Text(
+                                splitWaktu(d[index]['detail']
+                                    ['tanggal_pengumpulan']),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 11)),
+                            changeIcon(
+                                d[index]['is_done'],
+                                d[index]['tanggal_upload'],
+                                d[index]['detail']
+                                    ['tanggal_pengumpulan']),
+                          ],
+                        ),
+                      ),
+                    ))),
           );
         } else {
           return Column(

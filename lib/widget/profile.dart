@@ -1,23 +1,23 @@
+import 'package:e_learning/utils/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Profile extends StatelessWidget {
-  final String? data;
-  final String? value;
+  final String? title;
+  final String? subtitle;
+  final IconData? icon;
 
-  const Profile({super.key, this.data, this.value});
+  Profile({super.key, this.title, this.subtitle, this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("$data", style: const TextStyle(fontWeight: FontWeight.bold)),
-        Text("$value"),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 35),
+      decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1.5, color: kWhiteBg))),
+      child: ListTile(
+        leading: Icon(icon, color: kWhiteBg,),
+        title: Text(title!, style: const TextStyle(color: kWhiteBg, fontWeight: FontWeight.bold)),
+        subtitle: Text(subtitle!, style: const TextStyle(color: kWhiteBg)),
+      ),
     );
   }
 }
@@ -34,7 +34,7 @@ class SkeltonProfile extends StatelessWidget {
           radius: 80,
           backgroundColor: Color(0xffeeeeee),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Container(
@@ -45,7 +45,7 @@ class SkeltonProfile extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Container(
