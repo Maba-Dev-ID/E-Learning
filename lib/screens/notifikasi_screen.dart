@@ -1,6 +1,6 @@
 import 'package:e_learning/helper/helper_materi.dart';
 import 'package:e_learning/providers/notifikasi_provider.dart';
-import 'package:e_learning/utils/theme.dart';
+import 'package:e_learning/theme/theme.dart';
 import 'package:e_learning/widget/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,51 +19,188 @@ class NotifikasiScreen extends StatelessWidget {
       body: FutureBuilder(
         future: notifikasiProvider.getMateri(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print(">>>>>> ${snapshot.data}");
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
-            var d = snapshot.data;
-            DateTime today = DateTime.now();
-            print(d.length);
-            return SingleChildScrollView(
-                child: Column(
-              children: List.generate(d.length, (index) {
-                String weekday = d[index]['created_at'];
-                if (today
-                    .toLocal()
-                    .difference(DateTime.parse(d[index]['created_at']))
-                    .isNegative) {
-                  return ListTile(
-                    title: Text(d[index]['mapel']['nama']),
-                  );
-                } else if (today.day ==
-                        DateTime.parse(d[index]['created_at']).day &&
-                    today.month ==
-                        DateTime.parse(d[index]['created_at']).month &&
-                    today.year == DateTime.parse(d[index]['created_at']).year) {
-                  return Column(
-                    children: [
-                      Text("Yesterday"),
-                      Text(d[index]['mapel']['nama']),
-                    ],
-                  );
-                } else if (today
-                        .difference(DateTime.parse(d[index]['created_at']))
-                        .inDays <
-                    20) {
-                  return Text(
-                    "${transLateday(weekday)} - ${showTimeAgo(d[index]['created_at'])} \n ${d[index]['mapel']['nama']}",
-                    style:
-                        TextStyle(color: Theme.of(context).primaryColorLight),
-                  );
-                } else {
-                  return Divider();
-                }
-              }),
-            ));
+            var data = snapshot.data;
+            return ListView(
+              children: [
+                Visibility(
+                    visible: data['justnow'].length > 0 ? true : false,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: kGreenPrimary,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text(
+                              "hari Ini",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColorDark),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                              data['justnow'].length,
+                              (index) => Card(
+                                    child: ListTile(
+                                      contentPadding: const EdgeInsets.all(10),
+                                      title: Text(
+                                        "[MATERI] ${data['justnow'][index]['mapel']['nama']}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3,
+                                      ),
+                                      subtitle: Text(
+                                        data['justnow'][index]['konten'],
+                                      ),
+                                      trailing: Column(
+                                        children: [
+                                          Text(
+                                            transLateday(
+                                              data['justnow'][index]
+                                                  ['created_at'],
+                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1,
+                                          ),
+                                          Text(
+                                            showTimeAgo(data['justnow'][index]
+                                                ['created_at']),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                        ),
+                      ],
+                    )),
+                Visibility(
+                    visible: data['yesterday'].length > 0 ? true : false,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: kGreenPrimary,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text(
+                              "Kemarin",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColorDark),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                              data['yesterday'].length,
+                              (index) => Card(
+                                    child: ListTile(
+                                      contentPadding: const EdgeInsets.all(10),
+                                      title: Text(
+                                        "[MATERI] ${data['yesterday'][index]['mapel']['nama']}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3,
+                                      ),
+                                      subtitle: Text(
+                                        data['yesterday'][index]['konten'],
+                                      ),
+                                      trailing: Column(
+                                        children: [
+                                          Text(
+                                            transLateday(
+                                              data['yesterday'][index]
+                                                  ['created_at'],
+                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1,
+                                          ),
+                                          Text(
+                                            showTimeAgo(data['yesterday'][index]
+                                                ['created_at']),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                        ),
+                      ],
+                    )),
+                Visibility(
+                    visible: data['weekday'].length > 0 ? true : false,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: kGreenPrimary,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text(
+                              "Seminggu yang lalu",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColorDark),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                              data['weekday'].length,
+                              (index) => Card(
+                                    child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
+                                        title: Text(
+                                          "[MATERI] ${data['weekday'][index]['mapel']['nama']}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3,
+                                        ),
+                                        subtitle: Text(
+                                          data['weekday'][index]['konten'],
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        trailing: Column(
+                                          children: [
+                                            Text(
+                                              transLateday(
+                                                data['weekday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            ),
+                                            Text(
+                                              showTimeAgo(
+                                                data['weekday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            ),
+                                          ],
+                                        )),
+                                  )),
+                        ),
+                      ],
+                    ))
+              ],
+            );
           }
         },
       ),

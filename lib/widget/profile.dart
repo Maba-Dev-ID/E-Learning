@@ -1,4 +1,4 @@
-import 'package:e_learning/utils/theme.dart';
+import 'package:e_learning/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
@@ -13,11 +13,20 @@ class Profile extends StatelessWidget {
     var theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 35),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1.5, color: kWhiteBg))),
+      decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(width: 1.5, color: kWhiteBg))),
       child: ListTile(
-        leading: Icon(icon, color: theme.primaryColorDark,),
-        title: Text(title!, style: TextStyle(fontSize:15,fontWeight: FontWeight.bold, color: theme.primaryColorDark)),
-        subtitle: Text(subtitle!, style: TextStyle(color: theme.primaryColorDark)),
+        leading: Icon(
+          icon,
+          color: theme.primaryColorDark,
+        ),
+        title: Text(title!,
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: theme.primaryColorDark)),
+        subtitle:
+            Text(subtitle!, style: TextStyle(color: theme.primaryColorDark)),
       ),
     );
   }
@@ -28,7 +37,6 @@ class SkeltonProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -69,11 +77,16 @@ class SkeltonProfile extends StatelessWidget {
         Column(
           children: [
             ListTile(
-              leading: CircleAvatar(backgroundColor: Color(0xffeeeeee),
+              leading: CircleAvatar(
+                backgroundColor: Color(0xffeeeeee),
               ),
               title: Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Color(0xffeeeeee)),
-                height: 10, width: 100,),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color(0xffeeeeee)),
+                height: 10,
+                width: 100,
+              ),
             )
           ],
         )

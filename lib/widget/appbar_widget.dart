@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/theme.dart';
+import '../theme/theme.dart';
 
 PreferredSizeWidget? appbarWidget({String? title}) {
   return AppBar(

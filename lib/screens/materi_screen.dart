@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/mapel_provider.dart';
-import '../utils/theme.dart';
+import '../theme/theme.dart';
 import '../helper/helper_materi.dart';
 import 'one_materi.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../configs/apiEndPoint.dart';
 import '../services/storaged.dart';
-import '../utils/theme.dart';
+import '../theme/theme.dart';
 
 class UserProvider extends ChangeNotifier {
   var storage = SecureStorage();
@@ -45,34 +45,43 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  logout(context){
+  logout(context) {
     var theme = Theme.of(context);
-    showDialog(context: context, builder: (context)=> AlertDialog(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      title: Text("Yakin Keluar ?", style: theme.textTheme.headline3),
-      actions: [
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: theme.primaryColorLight
-            ),
-            onPressed: (){
-              Navigator.pop(context);
-            }, child: Text("Tidak",style: theme.textTheme.headline3,)),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: theme.primaryColor
-            ),
-            onPressed: (){
-          showDialog(context: context, builder: (context)=> loading());
-          Timer(const Duration(seconds: 2), () {
-            storage.deleteAll();
-            Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
-          });
-        }, child: Text("Ya",style: theme.textTheme.headline3,)),
-
-      ],
-    ));
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              backgroundColor: theme.scaffoldBackgroundColor,
+              title: Text("Yakin Keluar ?", style: theme.textTheme.headline3),
+              actions: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: theme.primaryColorLight),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Tidak",
+                      style: theme.textTheme.headline3,
+                    )),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.primaryColor),
+                    onPressed: () {
+                      showDialog(
+                          context: context, builder: (context) => loading());
+                      Timer(const Duration(seconds: 2), () {
+                        storage.deleteAll();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, "/login", (route) => false);
+                      });
+                    },
+                    child: Text(
+                      "Ya",
+                      style: theme.textTheme.headline3,
+                    )),
+              ],
+            ));
   }
 
   Future<Map<String, dynamic>> getProfileUser() async {

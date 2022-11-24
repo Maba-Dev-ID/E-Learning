@@ -21,7 +21,7 @@ class NotifikasiProvider extends ChangeNotifier {
       List justNow = [];
       List yesterday = [];
       List weekday = [];
-      List allDay = [];
+      Map allDay;
       result.forEach((data) {
         if (today
             .toLocal()
@@ -39,12 +39,14 @@ class NotifikasiProvider extends ChangeNotifier {
       });
 
       weekday.sort((a, b) {
-        print("A >> $a");
         return DateTime.parse(b['created_at'])
             .compareTo(DateTime.parse(a['created_at']));
       });
-      allDay = [...justNow, ...yesterday, ...weekday];
-      print("GET MATERI");
+      allDay = {
+        "justnow": justNow,
+        "yesterday": yesterday,
+        "weekday": weekday,
+      };
       print(allDay);
       return allDay;
     } else {

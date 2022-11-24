@@ -5,7 +5,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../helper/helper_tugas.dart';
 import '../providers/mapel_provider.dart';
-import '../utils/theme.dart';
+import '../theme/theme.dart';
 
 class TugasScreen extends StatefulWidget {
   const TugasScreen({Key? key}) : super(key: key);
