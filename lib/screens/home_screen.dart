@@ -1,3 +1,4 @@
+import 'package:e_learning/helper/helper_materi.dart';
 import 'package:e_learning/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DateTime today = DateTime.now();
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -37,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              kelas(mapelProvider,context),
+              kelas(mapelProvider, context, today.toString()),
             ],
           ),
         ));
@@ -69,7 +71,8 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
               ],
             ),
             GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileScreen())),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen())),
               child: const CircleAvatar(
                 backgroundColor: Color(0xffEEEEEE),
               ),
@@ -86,11 +89,18 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
               Text("${snapshot.data['nama']}",
                   style: theme.textTheme.headline3),
               Text(
-                  "${snapshot.data['user']['user_type'] == 'siswa' ? 'Mahasiswa' : snapshot.data['user']['user_type']}", style: theme.textTheme.subtitle1,)
+                "${snapshot.data['user']['user_type'] == 'siswa' ? 'Mahasiswa' : snapshot.data['user']['user_type']}",
+                style: theme.textTheme.subtitle1,
+              )
             ],
           ),
           GestureDetector(
-            onTap: () =>  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileScreen(data: snapshot.data,))),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfileScreen(
+                          data: snapshot.data,
+                        ))),
             child: Hero(
               tag: 'avatar',
               child: CircleAvatar(
@@ -126,18 +136,22 @@ Widget hero(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("E-Learning",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color:theme.primaryColorDark )),
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: theme.primaryColorDark)),
                 Text("Layanan Digitalisasi Sekolah",
                     style: TextStyle(color: theme.primaryColorDark)),
               ],
             ),
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: Container(
                 height: 35,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: theme.scaffoldBackgroundColor, borderRadius: BorderRadius.circular(10)),
+                    color: theme.scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   children: [
                     Padding(
@@ -148,7 +162,8 @@ Widget hero(BuildContext context) {
                       ),
                     ),
                     Expanded(
-                        child: Text("Silahkan Cari ...", style: theme.textTheme.subtitle1))
+                        child: Text("Silahkan Cari ...",
+                            style: theme.textTheme.subtitle1))
                   ],
                 ),
               ),
@@ -198,7 +213,7 @@ Widget task(MapelProvider mapelProvider) {
   );
 }
 
-Widget kelas(MapelProvider mapelProvider, context) {
+Widget kelas(MapelProvider mapelProvider, context, today) {
   var theme = Theme.of(context);
   return Container(
     margin: const EdgeInsets.only(top: 30),
@@ -209,12 +224,25 @@ Widget kelas(MapelProvider mapelProvider, context) {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Daftar Kelas",
-                  style: TextStyle(fontSize: 14, color: theme.primaryColorLight)),
+              RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: "Daftar Kelas",
+                      style: TextStyle(
+                          fontSize: 14, color: theme.primaryColorLight)),
+                  TextSpan(
+                      text: " Hari ${transLateday(today)} ",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: theme.primaryColorLight,
+                          fontWeight: FontWeight.bold))
+                ]),
+              ),
               GestureDetector(
                   onTap: () {},
                   child: Text('Lihat semua',
-                      style:  TextStyle(fontSize: 14, color: theme.primaryColorLight))),
+                      style: TextStyle(
+                          fontSize: 14, color: theme.primaryColorLight))),
             ],
           ),
         ),
@@ -224,6 +252,7 @@ Widget kelas(MapelProvider mapelProvider, context) {
           child: FutureBuilder(
             future: mapelProvider.getMataKuliah(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
+              print(snapshot.data);
               if (!snapshot.hasData) {
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -239,15 +268,17 @@ Widget kelas(MapelProvider mapelProvider, context) {
                   children: List.generate(
                       snapshot.data.length,
                       (index) => Container(
-                        margin: index > 0 ? EdgeInsets.only(left: 5):EdgeInsets.only(left: 20),
-                        child: KelasCard(
+                            margin: index > 0
+                                ? EdgeInsets.only(left: 5)
+                                : EdgeInsets.only(left: 20),
+                            child: KelasCard(
                               namaMatakul: data[index]['kelas_mapel']['mapel']
                                   ['nama'],
                               hari: data[index]['hari'],
                               wMulai: data[index]['jam_mulai'],
                               wSelesai: data[index]['jam_selesai'],
                             ),
-                      )),
+                          )),
                 ),
               );
             },
