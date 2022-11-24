@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:e_learning/helper/helper_materi.dart';
 import 'package:e_learning/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -36,6 +37,7 @@ class MapelProvider extends ChangeNotifier {
   }
 
   getMataKuliah() async {
+    var today = DateTime.now();
     var token = await storage.read('token');
     Uri url = Uri.parse(apiEndPoint['MATAKULIAH']);
 
@@ -72,7 +74,30 @@ class MapelProvider extends ChangeNotifier {
         ...jumat,
         ...sabtu,
       ];
-      return mapel;
+
+      String hari = await transLateday(today.toString());
+      switch (hari) {
+        case "Senin":
+          return senin;
+          break;
+        case "Selasa":
+          return selasa;
+          break;
+        case "Rabu":
+          return rabu.isNotEmpty ? rabu : mapel;
+          break;
+        case "Kamis":
+          return kamis.isNotEmpty ? kamis : mapel;
+          break;
+        case "Jumat":
+          return jumat.isNotEmpty ? jumat : mapel;
+          break;
+        case "Sabtu":
+          return sabtu.isNotEmpty ? sabtu : mapel;
+          break;
+        default:
+          return mapel;
+      }
     } else {
       throw 'error get profile user';
     }
@@ -162,7 +187,7 @@ class MapelProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       List result = (jsonDecode(response.body));
-      result.insert(0,{"mapel_id" : "all","nama" : "semua"});
+      result.insert(0, {"mapel_id": "all", "nama": "semua"});
       print(result);
       List<Category> category = result.map((e) {
         return Category.fromJson(e);
