@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:e_learning/providers/notifikasi_provider.dart';
 import 'package:e_learning/providers/theme_providers.dart';
-import 'package:e_learning/utils/theme.dart';
+import 'package:e_learning/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ void main() {
     ChangeNotifierProvider(create: (_) => UserProvider()),
     ChangeNotifierProvider(create: (_) => MapelProvider()),
     ChangeNotifierProvider(create: (_) => ThemeProvider()),
+    ChangeNotifierProvider(create: (_) => NotifikasiProvider()),
   ], child: const LMSApps()));
 }
 

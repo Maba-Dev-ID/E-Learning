@@ -1,10 +1,12 @@
+import 'package:badges/badges.dart';
 import 'package:e_learning/helper/helper_materi.dart';
+import 'package:e_learning/screens/notifikasi_screen.dart';
 import 'package:e_learning/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/mapel_provider.dart';
 import '../providers/user_provider.dart';
-import '../utils/theme.dart';
+import '../theme/theme.dart';
 import '../widget/kelas.dart';
 import '../widget/task.dart';
 
@@ -94,21 +96,39 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
               )
             ],
           ),
-          GestureDetector(
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfileScreen(
-                          data: snapshot.data,
-                        ))),
-            child: Hero(
-              tag: 'avatar',
-              child: CircleAvatar(
-                backgroundColor: const Color(0xffeeeeee),
-                backgroundImage: NetworkImage(
-                    "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Badge(
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotifikasiScreen()));
+                    },
+                    child: Icon(Icons.notifications)),
               ),
-            ),
+              SizedBox(
+                width: 20,
+              ),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                              data: snapshot.data,
+                            ))),
+                child: Hero(
+                  tag: 'avatar',
+                  child: CircleAvatar(
+                    backgroundColor: const Color(0xffeeeeee),
+                    backgroundImage: NetworkImage(
+                        "https://elearning.itg.ac.id/upload/avatar/${snapshot.data['avatar']}"),
+                  ),
+                ),
+              ),
+            ],
           )
         ],
       );

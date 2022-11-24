@@ -2,7 +2,7 @@ import 'package:e_learning/providers/theme_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
-import '../utils/theme.dart';
+import '../theme/theme.dart';
 import '../widget/profile.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Drawer drawerProfile(UserProvider userProvider,ThemeProvider themeProvider) {
+  Drawer drawerProfile(UserProvider userProvider, ThemeProvider themeProvider) {
     var theme = Theme.of(context);
     return Drawer(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -69,13 +69,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Icons.lightbulb_outline,
               color: kGreenPrimary,
             ),
-            title:  Text("Dark Mode", style: theme.textTheme.subtitle1,),
+            title: Text(
+              "Dark Mode",
+              style: theme.textTheme.subtitle1,
+            ),
             trailing: IconButton(
               onPressed: () {
                 setState(() {
-                  themeProvider.changeTheme(
-                    isDark ? "light" : "dark"
-                  );
+                  themeProvider.changeTheme(isDark ? "light" : "dark");
                   isDark = !isDark;
                 });
               },
@@ -91,7 +92,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Icons.volume_mute_outlined,
                 color: kGreenPrimary,
               ),
-              title:  Text("Mute Notifikasi", style: theme.textTheme.subtitle1,),
+              title: Text(
+                "Mute Notifikasi",
+                style: theme.textTheme.subtitle1,
+              ),
               trailing: IconButton(
                 onPressed: () {
                   setState(() {
@@ -109,16 +113,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Icons.layers,
               color: kGreenPrimary,
             ),
-            title: Text("Versi 1.0.0",style: theme.textTheme.subtitle1),
+            title: Text("Versi 1.0.0", style: theme.textTheme.subtitle1),
           ),
           ListTile(
             onTap: () => showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  backgroundColor: theme.scaffoldBackgroundColor,
+                      backgroundColor: theme.scaffoldBackgroundColor,
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children:  [
+                        children: [
                           Text(
                             "E-Learning",
                             style: theme.textTheme.headline2,
@@ -149,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Icons.info_outline,
               color: kGreenPrimary,
             ),
-            title:  Text("About",style: theme.textTheme.subtitle1),
+            title: Text("About", style: theme.textTheme.subtitle1),
           ),
           ListTile(
             onTap: () {
@@ -214,8 +218,7 @@ Widget profile(d, context) {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(d['nama'],
-                        style: theme.textTheme.headline3),
+                    Text(d['nama'], style: theme.textTheme.headline3),
                     Text(
                         d['user']['user_type'] == 'siswa'
                             ? "Mahasiswa"

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/theme.dart';
+import '../theme/theme.dart';
 
 class ModalFotoWidget extends StatelessWidget {
   final String url;
