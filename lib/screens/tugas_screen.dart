@@ -1,3 +1,4 @@
+import 'package:e_learning/widget/appbar_widget.dart';
 import 'package:e_learning/widget/dropdown_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -36,7 +37,7 @@ class _TugasScreenState extends State<TugasScreen> {
     var tugasAll = Provider.of<MapelProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: kWhiteBg,
-        appBar: appbarTugas(),
+        appBar: appbarWidget(title: "Tugas"),
         floatingActionButton: FloatingActionButton(
           elevation: 3,
           backgroundColor: Colors.white,
@@ -149,28 +150,6 @@ class _TugasScreenState extends State<TugasScreen> {
       ),
     );
   }
-
-  PreferredSizeWidget appbarTugas() {
-    return AppBar(
-      title: const Text("Tugas",
-          style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w800,
-              color: Color(0xff06283D))),
-      backgroundColor: kWhiteBg,
-      foregroundColor: Colors.black,
-      toolbarHeight: 110,
-      elevation: 0,
-      centerTitle: true,
-      actions: [
-        IconButton(
-            onPressed: () {
-              print("PINDAH HALAMAN KE SEARCH SCREEN -AKTIF-");
-            },
-            icon: const Icon(Icons.search))
-      ],
-    );
-  }
 }
 
 class TugasAll extends StatelessWidget {
@@ -211,7 +190,7 @@ class TugasAll extends StatelessWidget {
                 children: List.generate(
                     snapshot.data.length,
                     (index) => GestureDetector(
-                        // splashColor : kGreen,
+                          // splashColor : kGreen,
                           onLongPress: () => showDialog(
                               context: context,
                               builder: (context) =>
@@ -267,48 +246,52 @@ class TugasAll extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: [Row(
-                                      children: [
-                                        Container(
-                                          padding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 5,
-                                              vertical: 2),
-                                          decoration: BoxDecoration(
-                                              color:d[index]['nilai'] == null? Colors.grey:Colors.green,
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  10)),
-                                          child: Text( d[index]['nilai'] == null ? " Belum dinilai ":
-                                          " Dinilai ",
-                                            style: TextStyle(
-                                                fontSize: 11,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Visibility(
-                                          visible: d[index]['pesan'] == null ? false:true,
-                                          child: Container(
-                                            padding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 5,
-                                                vertical: 2),
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5, vertical: 2),
                                             decoration: BoxDecoration(
-                                                color:Colors.orangeAccent,
+                                                color: d[index]['nilai'] == null
+                                                    ? Colors.grey
+                                                    : Colors.green,
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    10)),
+                                                    BorderRadius.circular(10)),
                                             child: Text(
-                                            " Pesan ",
+                                              d[index]['nilai'] == null
+                                                  ? " Belum dinilai "
+                                                  : " Dinilai ",
                                               style: TextStyle(
                                                   fontSize: 11,
                                                   color: Colors.white),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                          SizedBox(width: 5),
+                                          Visibility(
+                                            visible: d[index]['pesan'] == null
+                                                ? false
+                                                : true,
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5,
+                                                      vertical: 2),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.orangeAccent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Text(
+                                                " Pesan ",
+                                                style: TextStyle(
+                                                    fontSize: 11,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                       TextButton(
                                           onPressed: () {
                                             print(d[index]['id']);

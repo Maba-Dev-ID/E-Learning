@@ -1,3 +1,4 @@
+import 'package:e_learning/widget/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -22,27 +23,14 @@ class _MateriScreenState extends State<MateriScreen> {
     _scrollController.animateTo(0,
         duration: const Duration(milliseconds: 300), curve: Curves.linear);
   }
+
   @override
   Widget build(BuildContext context) {
     var materiAll = Provider.of<MapelProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: kWhiteBg,
-        appBar: AppBar(
-          title: const Text("Materi",
-              style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xff06283D))),
-          backgroundColor: kWhiteBg,
-          foregroundColor: Colors.black,
-          toolbarHeight: 110,
-          elevation: 0,
-          centerTitle: true,
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
-          ],
-        ),
-        floatingActionButton:FloatingActionButton(
+        appBar: appbarWidget(title: "Materi"),
+        floatingActionButton: FloatingActionButton(
           elevation: 3,
           backgroundColor: Colors.white,
           foregroundColor: kGreenPrimary,
@@ -51,7 +39,7 @@ class _MateriScreenState extends State<MateriScreen> {
         ),
         body: SafeArea(
             child: ListView(
-              controller: _scrollController,
+          controller: _scrollController,
           children: [
             Container(
               decoration: BoxDecoration(boxShadow: const [
@@ -206,8 +194,9 @@ class _MateriScreenState extends State<MateriScreen> {
                                     fontWeight: FontWeight.w700)),
                             subtitle: Text(d[index]['judul'],
                                 style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                    color: Colors.white, fontSize: 16)),
+                                    overflow: TextOverflow.ellipsis,
+                                    color: Colors.white,
+                                    fontSize: 16)),
                             trailing: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
