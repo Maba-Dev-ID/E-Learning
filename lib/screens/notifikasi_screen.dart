@@ -17,7 +17,7 @@ class NotifikasiScreen extends StatelessWidget {
     return Scaffold(
       appBar: appbarWidget(title: "Notifikasi"),
       body: FutureBuilder(
-        future: notifikasiProvider.getMateri(),
+        future: notifikasiProvider.getTugas(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -50,13 +50,14 @@ class NotifikasiScreen extends StatelessWidget {
                                     child: ListTile(
                                       contentPadding: const EdgeInsets.all(10),
                                       title: Text(
-                                        "[MATERI] ${data['justnow'][index]['mapel']['nama']}",
+                                        "[TUGAS] ${data['justnow'][index]['detail']['mapel']['nama']}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline3,
                                       ),
                                       subtitle: Text(
-                                        data['justnow'][index]['konten'],
+                                        data['justnow'][index]['detal']
+                                            ['judul'],
                                       ),
                                       trailing: Column(
                                         children: [
@@ -106,13 +107,14 @@ class NotifikasiScreen extends StatelessWidget {
                                     child: ListTile(
                                       contentPadding: const EdgeInsets.all(10),
                                       title: Text(
-                                        "[MATERI] ${data['yesterday'][index]['mapel']['nama']}",
+                                        "[TUGAS] ${data['yesterday'][index]['detail']['mapel']['nama']}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline3,
                                       ),
                                       subtitle: Text(
-                                        data['yesterday'][index]['konten'],
+                                        data['yesterday'][index]['detail']
+                                            ['judul'],
                                       ),
                                       trailing: Column(
                                         children: [
@@ -163,13 +165,14 @@ class NotifikasiScreen extends StatelessWidget {
                                         contentPadding:
                                             const EdgeInsets.all(10),
                                         title: Text(
-                                          "[MATERI] ${data['weekday'][index]['mapel']['nama']}",
+                                          "[TUGAS] ${data['weekday'][index]['detail']['mapel']['nama']}",
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline3,
                                         ),
                                         subtitle: Text(
-                                          data['weekday'][index]['konten'],
+                                          data['weekday'][index]['detail']
+                                              ['judul'],
                                           maxLines: 5,
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -187,6 +190,67 @@ class NotifikasiScreen extends StatelessWidget {
                                             Text(
                                               showTimeAgo(
                                                 data['weekday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            ),
+                                          ],
+                                        )),
+                                  )),
+                        ),
+                      ],
+                    )),
+                Visibility(
+                    visible: data['monthday'].length > 0 ? true : false,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: kGreenPrimary,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text(
+                              "Sebulan yang lalu",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColorDark),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                              data['monthday'].length,
+                              (index) => Card(
+                                    child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
+                                        title: Text(
+                                          "[TUGAS] ${data['monthday'][index]['detail']['mapel']['nama']}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3,
+                                        ),
+                                        subtitle: Text(
+                                          data['monthday'][index]['detail']
+                                              ['judul'],
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        trailing: Column(
+                                          children: [
+                                            Text(
+                                              transLateday(
+                                                data['monthday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            ),
+                                            Text(
+                                              showTimeAgo(
+                                                data['monthday'][index]
                                                     ['created_at'],
                                               ),
                                               style: Theme.of(context)
