@@ -1,6 +1,6 @@
 # E-Learning
 ------------------------
-Aplikasi berbasi Mobile Apps yang mendukung akan produktivitas dalam pekerjaan diperkuliahan khusus nya di Kampus
+Aplikasi Clone berbasis Mobile Apps yang mendukung akan produktivitas dalam pekerjaan diperkuliahan
 
 untuk versi official Website E-Learning [link](https://elearning.itg.ac.id/dashboard)
 
