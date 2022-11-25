@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:e_learning/providers/theme_providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 import '../services/storaged.dart';
 import '../theme/theme.dart';
@@ -20,7 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   token() async {
     String? token = await storage.read('token');
-    print(token);
     if (token != null) {
       isLogin = true;
     }
@@ -43,6 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Provider.of<ThemeProvider>(context);
+    theme.getCurrentTheme();
     return Scaffold(
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -50,21 +53,24 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/bg.png"),
+                  image: theme.themeMode == ThemeMode.dark
+                      ? const AssetImage("assets/images/bg_dark.png")
+                      : const AssetImage("assets/images/bg.png"),
                   fit: BoxFit.cover)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 "E-learning",
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1!
+                    .copyWith(fontSize: 40),
               ),
-              const Text(
-                "Layanan Digitalisasi Sekolah",
-                style: TextStyle(fontSize: 16, color: Color(0xFF06283D)),
-              ),
+              Text("Layanan Digitalisasi Sekolah",
+                  style: Theme.of(context).textTheme.headline3),
               Container(
                   margin: EdgeInsets.symmetric(
                       vertical: 20,

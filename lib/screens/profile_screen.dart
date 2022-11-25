@@ -21,6 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     var userProvider = Provider.of<UserProvider>(context, listen: false);
+
     return Scaffold(
       appBar: appBarProfile(context),
       endDrawer: drawerProfile(userProvider, themeProvider),
@@ -33,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   )),
@@ -53,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         children: [
           DrawerHeader(
-              padding: EdgeInsets.only(top: 40),
+              padding: const EdgeInsets.only(top: 40),
               child: ListTile(
                 title: Text(
                   "E-Learning",
@@ -80,10 +81,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   isDark = !isDark;
                 });
               },
-              icon: Icon(
-                isDark ? Icons.toggle_on_rounded : Icons.toggle_off_outlined,
-                size: 35,
-                color: theme.primaryColor,
+              icon: FutureBuilder(
+                future: themeProvider.getCurrentTheme(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return Icon(
+                      Icons.toggle_off_outlined,
+                      size: 35,
+                      color: theme.primaryColor,
+                    );
+                  } else {
+                    if (snapshot.data == 'dark') {
+                      isDark = true;
+                      return Icon(
+                        isDark
+                            ? Icons.toggle_on_rounded
+                            : Icons.toggle_off_outlined,
+                        size: 35,
+                        color: theme.primaryColor,
+                      );
+                    } else {
+                      return Icon(
+                        isDark
+                            ? Icons.toggle_on_rounded
+                            : Icons.toggle_off_outlined,
+                        size: 35,
+                        color: theme.primaryColor,
+                      );
+                    }
+                  }
+                },
               ),
             ),
           ),
