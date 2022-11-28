@@ -11,11 +11,11 @@ class NotifikasiScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List angka = [1, 2, 3, 4, 5, 6, 7];
     var notifikasiProvider =
         Provider.of<NotifikasiProvider>(context, listen: false);
+    var theme = Theme.of(context);
     return Scaffold(
-      appBar: appbarWidget(title: "Notifikasi"),
+      appBar: appbarWidget(title: "Notifikasi", context: context),
       body: FutureBuilder(
         future: notifikasiProvider.getTugas(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -27,174 +27,70 @@ class NotifikasiScreen extends StatelessWidget {
             var data = snapshot.data;
             return ListView(
               children: [
+                //justnow
                 Visibility(
                     visible: data['justnow'].length > 0 ? true : false,
                     child: Column(
                       children: [
                         Container(
-                          color: kGreenPrimary,
+                          color: theme.primaryColor,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Center(
-                            child: Text(
-                              "hari Ini",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context).primaryColorDark),
-                            ),
+                            child: Text("Sebulan yang lalu",
+                                style: theme.textTheme.headline3!
+                                    .copyWith(color: theme.primaryColorDark)),
                           ),
                         ),
                         Column(
                           children: List.generate(
                               data['justnow'].length,
                               (index) => Card(
-                                    child: ListTile(
-                                      contentPadding: const EdgeInsets.all(10),
-                                      title: Text(
-                                        "[TUGAS] ${data['justnow'][index]['detail']['mapel']['nama']}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3,
-                                      ),
-                                      subtitle: Text(
-                                        data['justnow'][index]['detal']
-                                            ['judul'],
-                                      ),
-                                      trailing: Column(
-                                        children: [
-                                          Text(
-                                            transLateday(
-                                              data['justnow'][index]
-                                                  ['created_at'],
-                                            ),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                          ),
-                                          Text(
-                                            showTimeAgo(data['justnow'][index]
-                                                ['created_at']),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )),
-                        ),
-                      ],
-                    )),
-                Visibility(
-                    visible: data['yesterday'].length > 0 ? true : false,
-                    child: Column(
-                      children: [
-                        Container(
-                          color: kGreenPrimary,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Center(
-                            child: Text(
-                              "Kemarin",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context).primaryColorDark),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          children: List.generate(
-                              data['yesterday'].length,
-                              (index) => Card(
-                                    child: ListTile(
-                                      contentPadding: const EdgeInsets.all(10),
-                                      title: Text(
-                                        "[TUGAS] ${data['yesterday'][index]['detail']['mapel']['nama']}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3,
-                                      ),
-                                      subtitle: Text(
-                                        data['yesterday'][index]['detail']
-                                            ['judul'],
-                                      ),
-                                      trailing: Column(
-                                        children: [
-                                          Text(
-                                            transLateday(
-                                              data['yesterday'][index]
-                                                  ['created_at'],
-                                            ),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                          ),
-                                          Text(
-                                            showTimeAgo(data['yesterday'][index]
-                                                ['created_at']),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )),
-                        ),
-                      ],
-                    )),
-                Visibility(
-                    visible: data['weekday'].length > 0 ? true : false,
-                    child: Column(
-                      children: [
-                        Container(
-                          color: kGreenPrimary,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Center(
-                            child: Text(
-                              "Seminggu yang lalu",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context).primaryColorDark),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          children: List.generate(
-                              data['weekday'].length,
-                              (index) => Card(
+                                    color: theme.primaryColorDark,
                                     child: ListTile(
                                         contentPadding:
                                             const EdgeInsets.all(10),
                                         title: Text(
-                                          "[TUGAS] ${data['weekday'][index]['detail']['mapel']['nama']}",
+                                          "[TUGAS] ${data['justnow'][index]['detail']['mapel']['nama']}",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline3,
+                                              .headline3!
+                                              .copyWith(
+                                                  color:
+                                                      theme.primaryColorLight),
                                         ),
                                         subtitle: Text(
-                                          data['weekday'][index]['detail']
+                                          data['justnow'][index]['detail']
                                               ['judul'],
                                           maxLines: 5,
                                           overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: theme.primaryColorLight),
                                         ),
                                         trailing: Column(
                                           children: [
                                             Text(
                                               transLateday(
-                                                data['weekday'][index]
+                                                data['justnow'][index]
                                                     ['created_at'],
                                               ),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle1,
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
                                             ),
                                             Text(
                                               showTimeAgo(
-                                                data['weekday'][index]
+                                                data['justnow'][index]
                                                     ['created_at'],
                                               ),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle1,
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
                                             ),
                                           ],
                                         )),
@@ -202,26 +98,170 @@ class NotifikasiScreen extends StatelessWidget {
                         ),
                       ],
                     )),
+
+                //yesterday
+                Visibility(
+                    visible: data['yesterday'].length > 0 ? true : false,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: theme.primaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text("Sebulan yang lalu",
+                                style: theme.textTheme.headline3!
+                                    .copyWith(color: theme.primaryColorDark)),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                              data['yesterday'].length,
+                              (index) => Card(
+                                    color: theme.primaryColorDark,
+                                    child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
+                                        title: Text(
+                                          "[TUGAS] ${data['yesterday'][index]['detail']['mapel']['nama']}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3!
+                                              .copyWith(
+                                                  color:
+                                                      theme.primaryColorLight),
+                                        ),
+                                        subtitle: Text(
+                                          data['yesterday'][index]['detail']
+                                              ['judul'],
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: theme.primaryColorLight),
+                                        ),
+                                        trailing: Column(
+                                          children: [
+                                            Text(
+                                              transLateday(
+                                                data['yesterday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
+                                            ),
+                                            Text(
+                                              showTimeAgo(
+                                                data['yesterday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
+                                            ),
+                                          ],
+                                        )),
+                                  )),
+                        ),
+                      ],
+                    )),
+
+                //weekday
+                Visibility(
+                    visible: data['weekday'].length > 0 ? true : false,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: theme.primaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text("Sebulan yang lalu",
+                                style: theme.textTheme.headline3!
+                                    .copyWith(color: theme.primaryColorDark)),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                              data['weekday'].length,
+                              (index) => Card(
+                                    color: theme.primaryColorDark,
+                                    child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
+                                        title: Text(
+                                          "[TUGAS] ${data['weekday'][index]['detail']['mapel']['nama']}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3!
+                                              .copyWith(
+                                                  color:
+                                                      theme.primaryColorLight),
+                                        ),
+                                        subtitle: Text(
+                                          data['weekday'][index]['detail']
+                                              ['judul'],
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: theme.primaryColorLight),
+                                        ),
+                                        trailing: Column(
+                                          children: [
+                                            Text(
+                                              transLateday(
+                                                data['weekday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
+                                            ),
+                                            Text(
+                                              showTimeAgo(
+                                                data['weekday'][index]
+                                                    ['created_at'],
+                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
+                                            ),
+                                          ],
+                                        )),
+                                  )),
+                        ),
+                      ],
+                    )),
+
+                //monthday
                 Visibility(
                     visible: data['monthday'].length > 0 ? true : false,
                     child: Column(
                       children: [
                         Container(
-                          color: kGreenPrimary,
+                          color: theme.primaryColor,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Center(
-                            child: Text(
-                              "Sebulan yang lalu",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context).primaryColorDark),
-                            ),
+                            child: Text("Sebulan yang lalu",
+                                style: theme.textTheme.headline3!
+                                    .copyWith(color: theme.primaryColorDark)),
                           ),
                         ),
                         Column(
                           children: List.generate(
                               data['monthday'].length,
                               (index) => Card(
+                                    color: theme.primaryColorDark,
                                     child: ListTile(
                                         contentPadding:
                                             const EdgeInsets.all(10),
@@ -229,13 +269,18 @@ class NotifikasiScreen extends StatelessWidget {
                                           "[TUGAS] ${data['monthday'][index]['detail']['mapel']['nama']}",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline3,
+                                              .headline3!
+                                              .copyWith(
+                                                  color:
+                                                      theme.primaryColorLight),
                                         ),
                                         subtitle: Text(
                                           data['monthday'][index]['detail']
                                               ['judul'],
                                           maxLines: 5,
                                           overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: theme.primaryColorLight),
                                         ),
                                         trailing: Column(
                                           children: [
@@ -246,7 +291,10 @@ class NotifikasiScreen extends StatelessWidget {
                                               ),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle1,
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
                                             ),
                                             Text(
                                               showTimeAgo(
@@ -255,7 +303,10 @@ class NotifikasiScreen extends StatelessWidget {
                                               ),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle1,
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .primaryColorLight),
                                             ),
                                           ],
                                         )),

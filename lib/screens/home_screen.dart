@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        // backgroundColor: kWhiteBg,
         body: SafeArea(
           child: ListView(
             children: [
@@ -63,12 +62,12 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
                 Container(
                   height: 10,
                   width: 100,
-                  color: const Color(0xffEEEEEE),
+                  color: const Color(0xffeeeeee),
                 ),
                 Container(
                   height: 10,
                   width: 50,
-                  color: const Color(0xffEEEEEE),
+                  color: const Color(0xffeeeeee),
                 ),
               ],
             ),
@@ -76,7 +75,7 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ProfileScreen())),
               child: const CircleAvatar(
-                backgroundColor: Color(0xffEEEEEE),
+                backgroundColor: Color(0xffeeeeee),
               ),
             )
           ],
@@ -105,11 +104,14 @@ Widget navbar(BuildContext context, UserProvider userProvider) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotifikasiScreen()));
+                              builder: (context) => const NotifikasiScreen()));
                     },
-                    child: Icon(Icons.notifications)),
+                    child: Icon(
+                      Icons.notifications,
+                      color: theme.primaryColor,
+                    )),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               GestureDetector(
@@ -174,7 +176,7 @@ Widget hero(BuildContext context) {
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       child: Icon(
                         Icons.search,
@@ -247,22 +249,16 @@ Widget kelas(MapelProvider mapelProvider, context, today) {
               RichText(
                 text: TextSpan(children: [
                   TextSpan(
-                      text: "Daftar Kelas",
-                      style: TextStyle(
-                          fontSize: 14, color: theme.primaryColorLight)),
+                      text: "Daftar Kelas", style: theme.textTheme.subtitle1),
                   TextSpan(
                       text: " Hari ${transLateday(today)} ",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: theme.primaryColorLight,
-                          fontWeight: FontWeight.bold))
+                      style: theme.textTheme.subtitle1!
+                          .copyWith(fontWeight: FontWeight.bold))
                 ]),
               ),
               GestureDetector(
                   onTap: () {},
-                  child: Text('Lihat semua',
-                      style: TextStyle(
-                          fontSize: 14, color: theme.primaryColorLight))),
+                  child: Text('Lihat semua', style: theme.textTheme.subtitle1)),
             ],
           ),
         ),
@@ -272,12 +268,17 @@ Widget kelas(MapelProvider mapelProvider, context, today) {
           child: FutureBuilder(
             future: mapelProvider.getMataKuliah(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              print(snapshot.data);
               if (!snapshot.hasData) {
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: List.generate(5, (index) => const SkeltonCard()),
+                    children: List.generate(
+                        5,
+                        (index) => Container(
+                            margin: index > 0
+                                ? const EdgeInsets.only(left: 5)
+                                : const EdgeInsets.only(left: 20),
+                            child: const SkeltonCard())),
                   ),
                 );
               }
@@ -289,8 +290,8 @@ Widget kelas(MapelProvider mapelProvider, context, today) {
                       snapshot.data.length,
                       (index) => Container(
                             margin: index > 0
-                                ? EdgeInsets.only(left: 5)
-                                : EdgeInsets.only(left: 20),
+                                ? const EdgeInsets.only(left: 5)
+                                : const EdgeInsets.only(left: 20),
                             child: KelasCard(
                               namaMatakul: data[index]['kelas_mapel']['mapel']
                                   ['nama'],

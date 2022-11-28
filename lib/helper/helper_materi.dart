@@ -34,7 +34,6 @@ showTimeAgo(datetime) {
   var bulan = DateFormat('MMMM').format(date).toString();
   var tahun = DateFormat('y').format(date).toString(); //ubah years
   String? isBulan;
-  // print(bulan);
   switch (bulan) {
     case "January":
       isBulan = "Januari";
@@ -73,7 +72,6 @@ showTimeAgo(datetime) {
       isBulan = "Desember";
       break;
     default:
-      print(isBulan);
       break;
   }
   return "$hari, $isBulan $tahun";

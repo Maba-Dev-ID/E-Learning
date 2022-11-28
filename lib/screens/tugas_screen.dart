@@ -1,3 +1,4 @@
+import 'package:e_learning/helper/helper_materi.dart';
 import 'package:e_learning/widget/appbar_widget.dart';
 import 'package:e_learning/widget/dropdown_loading.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _TugasScreenState extends State<TugasScreen> {
   String? chosenStatus;
   bool isShowCategory = false;
   bool isVisible = false;
-  var searchCtrl = TextEditingController();
+  // var searchCtrl = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   void _scrollToTop() {
@@ -35,13 +36,14 @@ class _TugasScreenState extends State<TugasScreen> {
   @override
   Widget build(BuildContext context) {
     var tugasAll = Provider.of<MapelProvider>(context, listen: false);
+    var theme = Theme.of(context);
     return Scaffold(
-        backgroundColor: kWhiteBg,
-        appBar: appbarWidget(title: "Tugas"),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: appbarWidget(title: "Tugas", context: context),
         floatingActionButton: FloatingActionButton(
           elevation: 3,
-          backgroundColor: Colors.white,
-          foregroundColor: kGreenPrimary,
+          backgroundColor: theme.scaffoldBackgroundColor,
+          foregroundColor: theme.primaryColor,
           onPressed: _scrollToTop,
           child: const Icon(Icons.arrow_upward),
         ),
@@ -140,10 +142,8 @@ class _TugasScreenState extends State<TugasScreen> {
           items: items,
           onChanged: (value) {
             setState(() {
-              print(value);
               isShowCategory = true;
               chosenStatus = value;
-              print(chosenStatus);
             });
           },
         ),
@@ -207,6 +207,7 @@ class TugasAll extends StatelessWidget {
                                   minVerticalPadding: 25,
                                   title: Text(
                                     "${d[index]['detail']['mapel']['nama']} ",
+                                    maxLines: 2,
                                     style: const TextStyle(
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 18,
@@ -217,11 +218,12 @@ class TugasAll extends StatelessWidget {
                                       style: const TextStyle(
                                           fontSize: 16, color: Colors.white)),
                                   trailing: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                          splitTanggal(d[index]['detail']
+                                          showTimeAgo(d[index]['detail']
                                               ['tanggal_pengumpulan']),
                                           style: const TextStyle(
                                               color: Colors.white,
@@ -262,12 +264,12 @@ class TugasAll extends StatelessWidget {
                                               d[index]['nilai'] == null
                                                   ? " Belum dinilai "
                                                   : " Dinilai ",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 11,
                                                   color: Colors.white),
                                             ),
                                           ),
-                                          SizedBox(width: 5),
+                                          const SizedBox(width: 5),
                                           Visibility(
                                             visible: d[index]['pesan'] == null
                                                 ? false
@@ -282,7 +284,7 @@ class TugasAll extends StatelessWidget {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10)),
-                                              child: Text(
+                                              child: const Text(
                                                 " Pesan ",
                                                 style: TextStyle(
                                                     fontSize: 11,
@@ -293,10 +295,8 @@ class TugasAll extends StatelessWidget {
                                         ],
                                       ),
                                       TextButton(
-                                          onPressed: () {
-                                            print(d[index]['id']);
-                                          },
-                                          child: Text(
+                                          onPressed: () {},
+                                          child: const Text(
                                             "Detail ->",
                                             style: TextStyle(
                                                 // fontWeight: FontWeight.bold,
