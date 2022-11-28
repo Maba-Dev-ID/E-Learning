@@ -41,11 +41,11 @@ class LMSApps extends StatefulWidget {
 }
 
 class _LMSAppsState extends State<LMSApps> {
-  final ThemeProvider theme = ThemeProvider();
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, value, child) {
       final theme = Provider.of<ThemeProvider>(context);
+      theme.getCurrentTheme();
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'LMS Mobile Apps',

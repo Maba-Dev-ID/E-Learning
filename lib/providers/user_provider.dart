@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../configs/apiEndPoint.dart';
 import '../services/storaged.dart';
 import '../theme/theme.dart';
@@ -19,7 +20,6 @@ class UserProvider extends ChangeNotifier {
       body: {"username": username, "password": password},
     );
     var result = jsonDecode(response.body);
-    print(result);
     showDialog(context: context, builder: (context) => loading());
     if (result['status'] == 1) {
       var token = result['token'];
@@ -45,7 +45,8 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  logout(context) {
+  logout(context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     var theme = Theme.of(context);
     showDialog(
         context: context,
@@ -71,6 +72,7 @@ class UserProvider extends ChangeNotifier {
                       showDialog(
                           context: context, builder: (context) => loading());
                       Timer(const Duration(seconds: 2), () {
+                        prefs.clear();
                         storage.deleteAll();
                         Navigator.pushNamedAndRemoveUntil(
                             context, "/login", (route) => false);

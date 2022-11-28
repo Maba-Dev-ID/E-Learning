@@ -107,7 +107,6 @@ class _OneMateriScreenState extends State<OneMateriScreen> {
                               setState(() {
                                 isVisible = !isVisible;
                               });
-                              print(isVisible);
                             },
                             child: Text(
                                 !isVisible ? "Selengkapnya" : "Lebih Sedikit",
